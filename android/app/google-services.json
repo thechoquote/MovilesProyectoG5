@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "365345439477",
+    "project_id": "proyecto-moviles-g5",
+    "storage_bucket": "proyecto-moviles-g5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365345439477:android:2e260f52ec463801b40fbc",
+        "android_client_info": {
+          "package_name": "com.example.trabajomovilesg5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg54eDSYFUB4Yds_WjMIm1ttAlFtIoKKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

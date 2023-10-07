@@ -1,75 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/proyecto.dart';
+import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
+import 'package:trabajomovilesg5/features/Perfil/presentation/perfil.dart';
+import 'package:trabajomovilesg5/features/Login/presentation/pages/Login.dart';
 
 class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Home Page',
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pagina Principal'),
       ),
-      drawer: Drawer(
-        // Menú lateral
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Mis Proyectos'),
-              onTap: () {
-                // Acción al seleccionar la opción 1
-              },
-            ),
-            ListTile(
-              title: Text('Perfil'),
-              onTap: () {
-                // Acción al seleccionar la opción 1
-              },
-            ),
-            ListTile(
-              title: Text('Cerrar sesion'),
-              onTap: () {
-                // Acción al seleccionar la opción 2
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Stack(
+      drawer: DrawerMenu(),
+      body: ProjectList(),
+    );
+  }
+}
+
+class DrawerMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: <Widget>[
-          // Fondo con celdas, cajas o rectángulos
-          Container(
-            color: Colors.grey[200],
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MyCard('Proyecto 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.','assets/unmsm_logo.jpg'),
-                  MyCard('Proyecto 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.','assets/unmsm_logo.jpg'),
-                  MyCard('Proyecto 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.','assets/unmsm_logo.jpg'),
-                ],
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'Menú',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
               ),
             ),
+          ),
+          ListTile(
+            title: Text('Mis Proyectos'),
+            onTap: () {
+              // Acción al seleccionar la opción "Mis Proyectos"
+            },
+          ),
+          ListTile(
+            title: Text('Perfil'),
+            onTap: () {
+              // Navegar a la página de perfil al tocar "Perfil"
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PerfilPage(), // Usa la página de perfil
+              ));
+            },
+          ),
+          ListTile(
+            title: Text('Cerrar sesión'),
+            onTap: () {
+              // Implementa la lógica para cerrar sesión aquí
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => Login(), // Navega de regreso a la página de inicio de sesión
+              ));
+            },
           ),
         ],
       ),
@@ -77,13 +66,29 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class ProjectList extends StatelessWidget {
+  final List<Project> projects = [
+    Project('Proyecto 1', 'Descripción del proyecto 1', 'assets/unmsm_logo.jpg'),
+    Project('Proyecto 2', 'Descripción del proyecto 2', 'assets/unmsm_logo.jpg'),
+    Project('Proyecto 3', 'Descripción del proyecto 3', 'assets/unmsm_logo.jpg'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: projects.length,
+      itemBuilder: (context, index) {
+        return MyCard(projects[index]);
+      },
+    );
+  }
+}
+
 
 class MyCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String imagePath; // Agregamos una propiedad para la imagen
+  final Project project;
 
-  MyCard(this.title, this.description, this.imagePath);
+  MyCard(this.project);
 
   @override
   Widget build(BuildContext context) {
@@ -92,42 +97,57 @@ class MyCard extends StatelessWidget {
       margin: EdgeInsets.all(20),
       child: Padding(
         padding: EdgeInsets.all(20),
-        child: Row(
+        child: Column(
           children: <Widget>[
-            // Parte izquierda con la imagen
-            Expanded(
-              flex: 1, // Ajusta la relación de ancho de la parte izquierda y derecha
-              child: Image.asset(
-                imagePath,
-                width: 100, // Ajusta el ancho de la imagen según sea necesario
-                height: 100, // Ajusta la altura de la imagen según sea necesario
-                fit: BoxFit.cover, // Ajusta el tamaño y el recorte de la imagen
-              ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    project.imagePath,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        project.title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        project.description,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 20), // Espacio entre la imagen y el texto
-            // Parte derecha dividida en superior e inferior
-            Expanded(
-              flex: 2, // Ajusta la relación de ancho de la parte izquierda y derecha
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // Parte superior para el título
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10), // Espacio entre el título y la descripción
-                  // Parte inferior para la descripción
-                  Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+            SizedBox(height: 10), // Espacio entre la imagen y el botón
+            ElevatedButton(
+              onPressed: () {
+                // Acción al presionar el botón "Detalles"
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => proyecto(project),
+                )
+                );
+              },
+              child: Text('Detalles'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+                foregroundColor: Colors.white,
               ),
             ),
           ],

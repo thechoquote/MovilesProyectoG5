@@ -4,7 +4,8 @@ import 'package:trabajomovilesg5/features/Home/presentation/Home.dart';
 class Login extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@unmsm\.edu\.pe$'); // Expresión regular para validar el email
+  final RegExp emailRegex =
+  RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@unmsm\.edu\.pe$'); // Expresión regular para validar el email
 
   bool isEmailValid(String email) {
     return emailRegex.hasMatch(email);
@@ -32,8 +33,12 @@ class Login extends StatelessWidget {
                       filled: true,
                     ),
                     validator: (email) {
-                      if (email != null && !isEmailValid(email)) {
-                        return 'Email no válido. Debe ser un correo institucional';
+                      if (email != null) {
+                        if (!isEmailValid(email)) {
+                          return 'Email no válido. Debe ingresar con un correo institucional de UNMSM';
+                        }
+                      } else {
+                        return 'Por favor, ingrese un correo electrónico';
                       }
                       return null;
                     },
@@ -55,19 +60,20 @@ class Login extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 final email = emailController.text;
-                if (email != null && isEmailValid(email)) {
+                if (isEmailValid(email)) {
                   // Realizar la autenticación y navegar a la página principal (Home)
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => Home(),
                   ));
                 } else {
-                  // Mostrar un mensaje de error si el email no es válido o es nulo
+                  // Mostrar un mensaje de error si el email no es válido
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         title: Text('Error'),
-                        content: Text('El email debe ser de @unmsm.edu.pe.'),
+                        content: Text(
+                            'Email no válido. Debe ingresar con un correo institucional de UNMSM'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -87,14 +93,9 @@ class Login extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
