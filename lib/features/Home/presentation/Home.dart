@@ -68,9 +68,9 @@ class DrawerMenu extends StatelessWidget {
 
 class ProjectList extends StatelessWidget {
   final List<Project> projects = [
-    Project('Proyecto 1', 'Descripción del proyecto 1', 'assets/unmsm_logo.jpg'),
-    Project('Proyecto 2', 'Descripción del proyecto 2', 'assets/unmsm_logo.jpg'),
-    Project('Proyecto 3', 'Descripción del proyecto 3', 'assets/unmsm_logo.jpg'),
+    Project('Aplicacion movil para proyectos de investigacion', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.', 'assets/unmsm_logo.jpg'),
+    Project('Sistema web de tienda eccomerce', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa.', 'assets/unmsm_logo.jpg'),
+    Project('App para Gestion de farmacias', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.', 'assets/unmsm_logo.jpg'),
   ];
 
   @override

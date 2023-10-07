@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/Home.dart'; // Importa Home.dart
 
 class proyecto extends StatelessWidget {
   final Project project;
@@ -9,8 +10,25 @@ class proyecto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
         title: Text('Detalles del Proyecto'),
+      ),*/
+      appBar: AppBar(
+        title: Text('Detalles del Proyecto'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.arrow_back), // Icono de flecha hacia atrás
+            onPressed: () {
+              // Acción al presionar el botón "Regresar"
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Home(), // Redirige a Home.dart
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -37,8 +55,8 @@ class proyecto extends StatelessWidget {
               title: Text("Miembros del Proyecto"),
               children: [
                 // Aquí puedes mostrar información sobre los miembros del proyecto
-                Text("Nombre del miembro 1"),
-                Text("Nombre del miembro 2"),
+                Text("Sebastian Nuñez Medina"),
+                Text("César Urquizo Espinoza"),
                 // Agrega más información si es necesario
               ],
             ),

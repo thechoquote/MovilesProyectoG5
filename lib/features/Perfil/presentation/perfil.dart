@@ -19,7 +19,7 @@ class PerfilPage extends StatelessWidget {
             // Mostrar la foto de perfil
             CircleAvatar(
               radius: 80,
-              backgroundImage: AssetImage('assets/foto_de_perfil.png'), // Reemplaza con la ubicación de tu imagen de perfil
+              backgroundImage: AssetImage('assets/foto_de_perfil.jpg'), // Reemplaza con la ubicación de tu imagen de perfil
             ),
             SizedBox(height: 20),
             // Mostrar el nombre del estudiante

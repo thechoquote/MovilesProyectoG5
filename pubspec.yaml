@@ -42,6 +42,7 @@ flutter:
   assets:
     - assets/SPI-FISI_logo.jpg
     - assets/unmsm_logo.jpg
+    - assets/foto_de_perfil.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
