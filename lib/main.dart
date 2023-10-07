@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/Splash.dart';
+import 'package:trabajomovilesg5/features/Login/presentation/pages/Splash.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'config/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

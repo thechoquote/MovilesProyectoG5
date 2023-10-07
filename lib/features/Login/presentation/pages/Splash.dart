@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/Login.dart';
+import 'package:trabajomovilesg5/features/Login/presentation/pages/Login.dart';
 import 'package:trabajomovilesg5/main.dart';
 
 class MyAppSplash extends StatelessWidget
