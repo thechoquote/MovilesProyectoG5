@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/features/Login/presentation/pages/Login.dart';
+import 'package:trabajomovilesg5/LoginPage.dart';
 import 'package:trabajomovilesg5/main.dart';
+import 'package:trabajomovilesg5/prueba.dart';
 
-class MyAppSplash extends StatelessWidget
+class Splash extends StatelessWidget
 {
   @override
   Widget build(BuildContext context){
@@ -42,8 +43,7 @@ class _MyHomePageState extends State<MyHomePageSplash>
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder:(context)=>
-                Login()
+            builder:(context)=>Login()
         )
     );
   }

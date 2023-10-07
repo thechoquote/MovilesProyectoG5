@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/Home.dart'; // Importa Home.dart
+//import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart'; // Importa HomePage.dart
 
 class proyecto extends StatelessWidget {
-  final Project project;
+  //final Map<String, dynamic> projectData;
 
-  proyecto(this.project);
+  //proyecto(this.projectData);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*
-      appBar: AppBar(
-        title: Text('Detalles del Proyecto'),
-      ),*/
+
       appBar: AppBar(
         title: Text('Detalles del Proyecto'),
         actions: [
@@ -30,13 +27,15 @@ class proyecto extends StatelessWidget {
           ),
         ],
       ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              project.title,
+              "Proyecto 01",
+              //projectData['Nombre'], // Usar el campo 'Nombre' del mapa
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -44,13 +43,13 @@ class proyecto extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              project.description,
+              "Descripcion de Proyecto01",
+              //projectData['Descripcion'], // Usar el campo 'Descripción' del mapa
               style: TextStyle(
                 fontSize: 18,
               ),
             ),
             SizedBox(height: 20),
-            // Agregar un campo desplegable para "Miembros del proyecto"
             ExpansionTile(
               title: Text("Miembros del Proyecto"),
               children: [
@@ -60,7 +59,6 @@ class proyecto extends StatelessWidget {
                 // Agrega más información si es necesario
               ],
             ),
-            // Agregar campos desplegables para otros elementos como "Documentos", "Enlaces", etc.
             ExpansionTile(
               title: Text("Documentos"),
               children: [
@@ -119,6 +117,7 @@ class proyecto extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 }

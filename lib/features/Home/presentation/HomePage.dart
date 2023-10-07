@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/features/Proyecto/presentation/proyecto.dart';
+import 'package:trabajomovilesg5/config/firebase_services.dart';
+import 'package:trabajomovilesg5/LoginPage.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
-import 'package:trabajomovilesg5/features/Perfil/presentation/perfil.dart';
-import 'package:trabajomovilesg5/features/Login/presentation/pages/Login.dart';
+import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget{
+  const Home({
+    Key? key,
+  }) :super(key:key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pagina Principal'),
+        title: const Text('Página Principal'),
       ),
       drawer: DrawerMenu(),
       body: ProjectList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => agregarProyecto(), // Usa la página de perfil
+          ));
+          setState(() { });
+          },
+        child: const Icon(Icons.add)
+      )
     );
   }
 }
@@ -67,18 +87,30 @@ class DrawerMenu extends StatelessWidget {
 }
 
 class ProjectList extends StatelessWidget {
-  final List<Project> projects = [
-    Project('Aplicacion movil para proyectos de investigacion', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.', 'assets/unmsm_logo.jpg'),
-    Project('Sistema web de tienda eccomerce', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa.', 'assets/unmsm_logo.jpg'),
-    Project('App para Gestion de farmacias', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitasse dolor etiam sed ante donec quis sapien. Malesuada rhoncus nullam eleifend lorem egestas mauris massa massa. Más.', 'assets/unmsm_logo.jpg'),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: projects.length,
-      itemBuilder: (context, index) {
-        return MyCard(projects[index]);
+    return FutureBuilder(
+      future: getProjects(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final projectsData = snapshot.data as List<Map<String, dynamic>>;
+
+          return ListView.builder(
+            itemCount: projectsData.length,
+            itemBuilder: (context, index) {
+              final project = Project(
+                projectsData[index]['Nombre'], // Usa el campo 'Nombre' del resultado
+                projectsData[index]['Descripcion'] // Supongo que hay un campo 'Descripción' en tus datos
+              );
+
+              return MyCard(project);
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }
@@ -101,15 +133,6 @@ class MyCard extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Image.asset(
-                    project.imagePath,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
                 SizedBox(width: 20),
                 Expanded(
                   flex: 2,
@@ -135,18 +158,18 @@ class MyCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10), // Espacio entre la imagen y el botón
+            const SizedBox(height: 10), // Espacio entre la imagen y el botón
             ElevatedButton(
               onPressed: () {
                 // Acción al presionar el botón "Detalles"
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => proyecto(project),
+                  builder: (context) => proyecto()
                 )
                 );
               },
               child: Text('Detalles'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
               ),
             ),

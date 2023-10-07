@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/features/Login/presentation/pages/Splash.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'config/firebase_options.dart';
+
+import 'package:trabajomovilesg5/config/firebase_options.dart';
+import 'package:trabajomovilesg5/Splash.dart';
+import 'package:trabajomovilesg5/LoginPage.dart';
+import 'package:trabajomovilesg5/ErrorPage.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +25,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
 
-      home:  MyAppSplash(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Splash(),
+        '/login': (context) => Login(),
+        '/home': (context) => Home(),
+        '/proyect': (context) => proyecto(),
+        '/addProyect': (context) => agregarProyecto()
+      },
+      onGenerateRoute: (settings){
+        return MaterialPageRoute(
+            builder: (context) => const ErrorPage(),
+        );
+      },
     );
   }
 }
