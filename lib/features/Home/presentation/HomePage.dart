@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/config/firebase_services.dart';
+import 'package:http/http.dart' as http;
+import 'package:trabajomovilesg5/config/config.dart';
+import 'package:trabajomovilesg5/config/ServerResponse.dart';
+
 import 'package:trabajomovilesg5/LoginPage.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
@@ -7,35 +12,81 @@ import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
 class Home extends StatefulWidget{
-  const Home({
-    Key? key,
-  }) :super(key:key);
+  const Home({Key? key,}) :super(key:key);
 
   @override
-  State<Home> createState() => _HomeState();
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+  Future<List<Map<String, dynamic>>> getProjects() async {
+
+    final url = Uri.parse("${config.baseUrl}/listarProyectos.php");
+
+    final response = await http.get(url);
+
+    if (response.statusCode == ResponseDB.successCode) {
+      final responseMap = json.decode(response.body);
+      final projectsList = responseMap['projects'] as List<dynamic>; // Asegúrate de que 'projects' coincida con la clave en tu JSON
+
+      return projectsList.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load projects');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Página Principal'),
       ),
+
       drawer: DrawerMenu(),
-      body: ProjectList(),
+
+      body: FutureBuilder(
+        future: getProjects(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+
+            final projectsData = snapshot.data as List<Map<String, dynamic>>;
+
+            return ListView.builder(
+              itemCount: projectsData.length,
+              itemBuilder: (context, index) {
+                final project = Project(
+                  projectsData[index]['titulo'],
+                  projectsData[index]['descripcion'],
+                );
+
+                return MyCard(project);
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => agregarProyecto(), // Usa la página de perfil
+            builder: (context) => agregarProyecto(),
           ));
-          setState(() { });
-          },
-        child: const Icon(Icons.add)
-      )
+          setState(() {});
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
+
 
 class DrawerMenu extends StatelessWidget {
   @override
@@ -82,36 +133,6 @@ class DrawerMenu extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ProjectList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getProjects(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final projectsData = snapshot.data as List<Map<String, dynamic>>;
-
-          return ListView.builder(
-            itemCount: projectsData.length,
-            itemBuilder: (context, index) {
-              final project = Project(
-                projectsData[index]['Nombre'], // Usa el campo 'Nombre' del resultado
-                projectsData[index]['Descripcion'] // Supongo que hay un campo 'Descripción' en tus datos
-              );
-
-              return MyCard(project);
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
     );
   }
 }
@@ -179,3 +200,35 @@ class MyCard extends StatelessWidget {
     );
   }
 }
+
+/*
+class ProjectList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getProjects(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final projectsData = snapshot.data as List<Map<String, dynamic>>;
+
+          return ListView.builder(
+            itemCount: projectsData.length,
+            itemBuilder: (context, index) {
+              final project = Project(
+                  projectsData[index]['Nombre'], // Usa el campo 'Nombre' del resultado
+                  projectsData[index]['Descripcion'] // Supongo que hay un campo 'Descripción' en tus datos
+              );
+
+              return MyCard(project);
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+*/

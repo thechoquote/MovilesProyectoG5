@@ -1,0 +1,155 @@
+-- Crear tabla Usuario
+CREATE TABLE Usuario (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50),
+  codigo VARCHAR(20),
+  email VARCHAR(100) UNIQUE,
+  contrasena VARCHAR(255),
+  foto_perfil VARCHAR(255)
+);
+
+-- Crear tabla Proyecto
+CREATE TABLE Proyecto (
+  id_proyecto INT AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(100),
+  descripcion TEXT,
+  fecha_creacion DATE,
+  id_creador INT,
+  FOREIGN KEY (id_creador) REFERENCES Usuario(id_usuario)
+);
+
+-- Crear tabla MiembrosProyecto para la relación muchos a muchos
+CREATE TABLE MiembrosProyecto (
+  id_usuario INT,
+  id_proyecto INT,
+  PRIMARY KEY (id_usuario, id_proyecto),
+  FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
+  FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Recursos
+CREATE TABLE Recursos (
+    id_recursos INT AUTO_INCREMENT PRIMARY KEY,
+    NombreRecurso VARCHAR(255),
+    RutaDelRecurso VARCHAR(255),
+    FechaSubida DATE,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Entregables
+CREATE TABLE Entregables (
+    id_entregables INT AUTO_INCREMENT PRIMARY KEY,
+    NombreEntregable VARCHAR(255),
+    RutaDelEntregable VARCHAR(255),
+    FechaEntrega DATE,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Versiones
+CREATE TABLE Versiones (
+    id_versiones INT AUTO_INCREMENT PRIMARY KEY,
+    NombreVersion VARCHAR(255),
+    RutaDeVersion VARCHAR(255),
+    FechaCreacion DATE,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Fuentes
+CREATE TABLE Fuentes (
+    id_fuentes INT AUTO_INCREMENT PRIMARY KEY,
+    NombreFuente VARCHAR(255),
+    URLFuente VARCHAR(255),
+    FechaPublicacion DATE,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Enlaces
+CREATE TABLE Enlaces (
+    id_enlaces INT AUTO_INCREMENT PRIMARY KEY,
+    NombreEnlace VARCHAR(255),
+    URLEnlace VARCHAR(255),
+    DescripcionEnlace TEXT,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Otros
+CREATE TABLE Otros (
+    id_otros INT AUTO_INCREMENT PRIMARY KEY,
+    NombreOtro VARCHAR(255),
+    DescripcionOtro TEXT,
+    id_proyecto INT,
+    FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto)
+);
+
+-- Crear la tabla de Anotaciones
+CREATE TABLE Anotaciones (
+    id_anotaciones INT AUTO_INCREMENT PRIMARY KEY,
+    ContenidoAnotacion TEXT,
+    id_usuario INT,
+    id_elemento INT,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_elemento) REFERENCES Recursos(id_recursos) ON DELETE CASCADE
+);
+
+-- Insertar valores en la tabla Usuario
+INSERT INTO Usuario (nombre, codigo, email, contrasena, foto_perfil)
+VALUES
+    ('Usuario1', '19200048', 'usuario1@example.com', 'contra123', 'perfil1.jpg'),
+    ('Usuario2', '19200053', 'usuario2@example.com', 'pass123', 'perfil2.jpg'),
+    ('Usuario3', '20200123', 'usuario3@example.com', 'u0123456', 'perfil3.jpg');
+
+-- Insertar valores en la tabla Proyecto
+INSERT INTO Proyecto (titulo, descripcion, fecha_creacion, id_creador)
+VALUES
+    ('Proyecto 01', 'Descripción del Proyecto A', '2023-06-14', 1), -- El usuario con ID 1 es el creador
+    ('Proyecto DSW', 'Descripción del Proyecto B', '2023-06-20', 2), -- El usuario con ID 2 es el creador
+    ('Proyecto DSM', 'Descripción del Proyecto C', '2022-06-22', 3); -- El usuario con ID 3 es el creador
+
+-- Insertar valores en la tabla MiembrosProyecto
+INSERT INTO MiembrosProyecto (id_usuario, id_proyecto)
+VALUES
+    (1, 1), -- Usuario 1 es miembro de Proyecto A
+    (1, 2), -- Usuario 1 es miembro de Proyecto B
+    (2, 2), -- Usuario 2 es miembro de Proyecto B
+    (2, 3); -- Usuario 2 es miembro de Proyecto C;
+
+-- Insertar valores de ejemplo en la tabla Recursos
+INSERT INTO Recursos (NombreRecurso, RutaDelRecurso, FechaSubida, id_proyecto)
+VALUES
+    ('Plantilla EP', 'ruta/recurso1.pdf', '2023-10-14', 1), -- Recurso del Proyecto A
+    ('Plantilla PF', 'ruta/recurso2.jpg', '2023-10-14', 1); -- Recurso del Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Entregables
+INSERT INTO Entregables (NombreEntregable, RutaDelEntregable, FechaEntrega, id_proyecto)
+VALUES
+    ('Informe Final', 'ruta/entregable1.pdf', '2023-10-14', 1); -- Entregable del Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Versiones
+INSERT INTO Versiones (NombreVersion, RutaDeVersion, FechaCreacion, id_proyecto)
+VALUES
+    ('Versión 1', 'ruta/version1.zip', '2023-10-14', 1); -- Versión del Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Fuentes
+INSERT INTO Fuentes (NombreFuente, URLFuente, FechaPublicacion, id_proyecto)
+VALUES
+    ('Fuente 1', 'https://fuente1.com', '2023-10-14', 1); -- Fuente relacionada con el Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Enlaces
+INSERT INTO Enlaces (NombreEnlace, URLEnlace, DescripcionEnlace, id_proyecto)
+VALUES
+    ('Enlace 1', 'https://enlace1.com', 'Descripción del enlace 1', 1); -- Enlace relacionado con el Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Otros
+INSERT INTO Otros (NombreOtro, DescripcionOtro, id_proyecto)
+VALUES
+    ('Otro 1', 'Descripción de Otro 1', 1); -- Otro relacionado con el Proyecto A
+
+-- Insertar valores de ejemplo en la tabla Anotaciones
+INSERT INTO Anotaciones (ContenidoAnotacion, id_usuario, id_elemento)
+VALUES
+    ('Anotación en Recurso 1', 1, 1); -- Anotación del Usuario 1 en Recurso 1
