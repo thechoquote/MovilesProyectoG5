@@ -8,7 +8,7 @@ import 'package:trabajomovilesg5/ErrorPage.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
-
+import 'package:trabajomovilesg5/prueba.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,11 +28,11 @@ class MyApp extends StatelessWidget {
 
       initialRoute: '/',
       routes: {
-        '/': (context) => Splash(),
+        '/': (context) => Scene(),//acá cambia la variable para probar vistas()
         '/login': (context) => Login(),
         '/home': (context) => Home(),
-        '/proyect': (context) => proyecto(),
-        '/addProyect': (context) => agregarProyecto()
+        '/proyect': (context) => DetallesProyecto(),
+        '/addProyect': (context) => AgregarProyecto()
       },
       onGenerateRoute: (settings){
         return MaterialPageRoute(

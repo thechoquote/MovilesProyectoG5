@@ -623,6 +623,6 @@ class Scene extends StatelessWidget {
           ],
         ),
       ),
-    );
+          );
   }
 }

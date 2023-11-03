@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/config/firebase_services.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
 
-class agregarProyecto extends StatefulWidget {
-  const agregarProyecto({super.key});
+class AgregarProyecto extends StatefulWidget {
+  const AgregarProyecto({super.key});
   @override
-  State<agregarProyecto> createState() => _agregarProyecto();
+  State<AgregarProyecto> createState() => _AgregarProyecto();
 }
 
-class _agregarProyecto extends State<agregarProyecto> {
+class _AgregarProyecto extends State<AgregarProyecto> {
 
   TextEditingController nameController = TextEditingController(text:"");
   TextEditingController descriptionController = TextEditingController(text: "");

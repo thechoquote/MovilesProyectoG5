@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart'; // Importa HomePage.dart
+import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Document.dart';
 
-class proyecto extends StatelessWidget {
+
+class DetallesProyecto extends StatelessWidget {
   //final Map<String, dynamic> projectData;
 
   //proyecto(this.projectData);
@@ -63,9 +64,14 @@ class proyecto extends StatelessWidget {
               title: Text("Documentos"),
               children: [
                 // Aquí puedes mostrar información sobre los documentos del proyecto
-                Text("Informe 1"),
-                Text("Informe 2"),
-                Text("Informe Final"),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetallesDocumento(), // Redirige a la página DetailsDocument.dart
+                    ));
+                  },
+                  child: Text("Ver Documentos"),
+                ),
                 // Agrega más información si es necesario
               ],
             ),

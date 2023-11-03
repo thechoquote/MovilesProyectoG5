@@ -15,6 +15,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.2
+
   equatable: ^2.0.5
   get_it: ^7.6.0
   intl: ^0.18.1
@@ -22,7 +23,12 @@ dependencies:
   retrofit: ^3.0.1
   flutter_hooks: ^0.18.3
   cached_network_image: ^3.2.0
+
+  open_filex: ^4.3.2
+  path_provider: ^2.1.1
+  pdf: 3.10.4
   fluttertoast: ^8.2.2
+  google_fonts: ^6.1.0
   http: any
 
   #Dependencias de firebase
@@ -46,7 +52,75 @@ flutter:
     - assets/SPI-FISI_logo.jpg
     - assets/unmsm_logo.jpg
     - assets/foto_de_perfil.jpg
+    - assets/pdf_icon.jpg
 
+  #imagenes de flutterflow
+    - assets/page-1/images/auto-group-ofwj.png
+    - assets/page-1/images/wifi.png
+    - assets/page-1/images/cellular-connection.png
+    - assets/page-1/images/image-1.png
+    - assets/page-1/images/group-33.png
+    - assets/page-1/images/group-2.png
+    - assets/page-1/images/group-33-VAz.png
+    - assets/page-1/images/cellular-connection-LpS.png
+    - assets/page-1/images/group-30.png
+    - assets/page-1/images/wifi-Ps8.png
+    - assets/page-1/images/cellular-connection-cKC.png
+    - assets/page-1/images/group-27.png
+    - assets/page-1/images/group-30-oGN.png
+    - assets/page-1/images/back.png
+    - assets/page-1/images/image-2.png
+    - assets/page-1/images/image-2-Lw4.png
+    - assets/page-1/images/group-33-PXx.png
+    - assets/page-1/images/wifi-V14.png
+    - assets/page-1/images/group-30-qTY.png
+    - assets/page-1/images/studying-cuate.png
+    - assets/page-1/images/wifi-iRQ.png
+    - assets/page-1/images/group-5.png
+    - assets/page-1/images/group-30-Bri.png
+    - assets/page-1/images/battery.png
+    - assets/page-1/images/auto-group-hdjx.png
+    - assets/page-1/images/cellular-connection-gV8.png
+    - assets/page-1/images/group-27-oGE.png
+    - assets/page-1/images/cellular-connection-CUa.png
+    - assets/page-1/images/back-8JE.png
+    - assets/page-1/images/group-7.png
+    - assets/page-1/images/studying-cuate-ExA.png
+    - assets/page-1/images/mask-group.png
+    - assets/page-1/images/group-61.png
+    - assets/page-1/images/mask-group-TXx.png
+    - assets/page-1/images/group-33-YJW.png
+    - assets/page-1/images/group-33-Yjk.png
+    - assets/page-1/images/group-60.png
+    - assets/page-1/images/battery-k7c.png
+    - assets/page-1/images/cellular-connection-bnS.png
+    - assets/page-1/images/group-33-vJv.png
+    - assets/page-1/images/slider-indicator.png
+    - assets/page-1/images/group-4.png
+    - assets/page-1/images/group-118.png
+    - assets/page-1/images/group-19.png
+    - assets/page-1/images/auto-group-qjpg.png
+    - assets/page-1/images/group-11.png
+    - assets/page-1/images/group-27-AN6.png
+    - assets/page-1/images/group-6.png
+    - assets/page-1/images/mask-group-q6A.png
+    - assets/page-1/images/auto-group-4dcn.png
+    - assets/page-1/images/group-19-e9x.png
+    - assets/page-1/images/group-19-KUv.png
+    - assets/page-1/images/battery-Ygz.png
+    - assets/page-1/images/wifi-BhL.png
+    - assets/page-1/images/auto-group-chc6.png
+    - assets/page-1/images/battery-XKG.png
+    - assets/page-1/images/group-30-UEW.png
+    - assets/page-1/images/battery-XSA.png
+    - assets/page-1/images/group-30-y1t.png
+    - assets/page-1/images/battery-io4.png
+    - assets/page-1/images/course-preview.png
+    - assets/page-1/images/studying-bro.png
+    - assets/page-1/images/wifi-g4z.png
+    - assets/page-1/images/group-33-9SA.png
+    - assets/page-1/images/group-33-Tmt.png
+    - assets/page-1/images/course-preview-o78.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/config/firebase_services.dart';
+//import 'package:trabajomovilesg5/config/firebase_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
@@ -11,24 +11,21 @@ import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
-class Home extends StatefulWidget{
-  const Home({Key? key,}) :super(key:key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   Future<List<Map<String, dynamic>>> getProjects() async {
-
     final url = Uri.parse("${config.baseUrl}/listarProyectos.php");
-
     final response = await http.get(url);
 
     if (response.statusCode == ResponseDB.successCode) {
       final responseMap = json.decode(response.body);
-      final projectsList = responseMap['projects'] as List<dynamic>; // Asegúrate de que 'projects' coincida con la clave en tu JSON
+      final projectsList = responseMap as List<dynamic>;
 
       return projectsList.cast<Map<String, dynamic>>();
     } else {
@@ -42,9 +39,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Página Principal'),
       ),
-
       drawer: DrawerMenu(),
-
       body: FutureBuilder(
         future: getProjects(),
         builder: (context, snapshot) {
@@ -73,11 +68,10 @@ class _HomeState extends State<Home> {
           }
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => agregarProyecto(),
+            builder: (context) => AgregarProyecto(),
           ));
           setState(() {});
         },
@@ -184,7 +178,7 @@ class MyCard extends StatelessWidget {
               onPressed: () {
                 // Acción al presionar el botón "Detalles"
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => proyecto()
+                  builder: (context) => DetallesProyecto()
                 )
                 );
               },
