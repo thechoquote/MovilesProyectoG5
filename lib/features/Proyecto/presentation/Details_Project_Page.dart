@@ -14,7 +14,7 @@ class DetallesProyecto extends StatelessWidget {
 
       appBar: AppBar(
         title: Text('Detalles del Proyecto'),
-        actions: [
+        /*actions: [
           IconButton(
             icon: Icon(Icons.arrow_back), // Icono de flecha hacia atrás
             onPressed: () {
@@ -26,7 +26,7 @@ class DetallesProyecto extends StatelessWidget {
               );
             },
           ),
-        ],
+        ],*/
       ),
 
       body: SingleChildScrollView(

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
       initialRoute: '/',
       routes: {
-        '/': (context) => Scene(),//acá cambia la variable para probar vistas()
+        '/': (context) => Splash(),//Scene es para probar cada vista de prueba
         '/login': (context) => Login(),
         '/home': (context) => Home(),
         '/proyect': (context) => DetallesProyecto(),

@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePageSplash>
                   width: 320,
                   height: 320,
                   color: Colors.white,
-                  child: Image.asset('assets/unmsm_logo.jpg'),
+                  child: Image.asset('assets/UNMSM-logo.png'),
                 )
               ],
             )

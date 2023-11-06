@@ -142,15 +142,15 @@ class MyCard extends StatelessWidget {
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(20),
-      child: Padding(
+      child: Container(
         padding: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
+            // Primera fila: Nombre del proyecto y número de ciclo
             Row(
               children: <Widget>[
-                SizedBox(width: 20),
+                // Columna izquierda: Nombre del proyecto
                 Expanded(
-                  flex: 2,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -161,32 +161,53 @@ class MyCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        project.description,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
                     ],
+                  ),
+                ),
+
+                // Columna derecha: Número de ciclo
+                Text(
+                  'Ciclo 8', // Puedes cambiar el número del ciclo según sea necesario
+                  style: TextStyle(
+                    fontSize: 14,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 10), // Espacio entre la imagen y el botón
-            ElevatedButton(
-              onPressed: () {
-                // Acción al presionar el botón "Detalles"
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => DetallesProyecto()
-                )
-                );
-              },
-              child: Text('Detalles'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
+            SizedBox(height: 10),
+
+            // Segunda fila: Descripción del proyecto
+            Row(
+              children: <Widget>[
+                Text(
+                  project.description,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+
+            // Tercera fila: Botón Detalles
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    // Acción al presionar el botón "Detalles"
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => DetallesProyecto()),
+                    );
+                  },
+                  child: Text('Detalles'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -194,6 +215,11 @@ class MyCard extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
 
 /*
 class ProjectList extends StatelessWidget {

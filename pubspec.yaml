@@ -50,11 +50,11 @@ flutter:
 
   assets:
     - assets/SPI-FISI_logo.jpg
-    - assets/unmsm_logo.jpg
     - assets/foto_de_perfil.jpg
     - assets/pdf_icon.jpg
+    - assets/UNMSM-logo.png
 
-  #imagenes de flutterflow
+  #imagenes de Figma
     - assets/page-1/images/auto-group-ofwj.png
     - assets/page-1/images/wifi.png
     - assets/page-1/images/cellular-connection.png
