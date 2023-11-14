@@ -53,6 +53,7 @@ flutter:
     - assets/foto_de_perfil.jpg
     - assets/pdf_icon.jpg
     - assets/UNMSM-logo.png
+    - assets/unmsmlogo.png
 
   #imagenes de Figma
     - assets/page-1/images/auto-group-ofwj.png

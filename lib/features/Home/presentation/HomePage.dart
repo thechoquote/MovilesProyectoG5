@@ -11,6 +11,11 @@ import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
+const Color color1 = Color(0xFF22092C);
+const Color color2 = Color(0xFF872341);
+const Color color3 = Color(0xFFBE3144);
+const Color color4 = Color(0xFFF05941);
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -37,38 +42,101 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Página Principal'),
+        backgroundColor: color4,
+        title: const Text(
+          'SPI - FISI',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: Container(),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add,
+                color: Colors.black), // Cambia el color del icono a negro
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AgregarProyecto()),
+              );
+            },
+          ),
+        ],
       ),
-      drawer: DrawerMenu(),
-      body: FutureBuilder(
-        future: getProjects(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+      body: Container(
+        color: color2,
+        child: FutureBuilder(
+          future: getProjects(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final projectsData = snapshot.data as List<Map<String, dynamic>>;
+
+              return ListView.builder(
+                itemCount: projectsData.length,
+                itemBuilder: (context, index) {
+                  final project = Project(
+                    projectsData[index]['titulo'],
+                    projectsData[index]['descripcion'],
+                  );
+
+                  return MyCard(project);
+                },
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
-
-            final projectsData = snapshot.data as List<Map<String, dynamic>>;
-
-            return ListView.builder(
-              itemCount: projectsData.length,
-              itemBuilder: (context, index) {
-                final project = Project(
-                  projectsData[index]['titulo'],
-                  projectsData[index]['descripcion'],
-                );
-
-                return MyCard(project);
-              },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Container(
+          height: 50.0,
+          child: BottomAppBar(
+            color: Colors.transparent, // Quita el fondo
+            elevation: 0.0, // Quita el sombreado
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.home,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () {
+                        // No hace nada
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.person,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => PerfilPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AgregarProyecto(),
@@ -76,12 +144,12 @@ class _HomeState extends State<Home> {
           setState(() {});
         },
         child: const Icon(Icons.add),
-      ),
+      ),*/
     );
   }
 }
 
-
+/*
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,7 +189,8 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               // Implementa la lógica para cerrar sesión aquí
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => Login(), // Navega de regreso a la página de inicio de sesión
+                builder: (context) =>
+                    Login(), // Navega de regreso a la página de inicio de sesión
               ));
             },
           ),
@@ -130,8 +199,7 @@ class DrawerMenu extends StatelessWidget {
     );
   }
 }
-
-
+*/
 class MyCard extends StatelessWidget {
   final Project project;
 
@@ -198,12 +266,13 @@ class MyCard extends StatelessWidget {
                   onPressed: () {
                     // Acción al presionar el botón "Detalles"
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => DetallesProyecto()),
+                      MaterialPageRoute(
+                          builder: (context) => DetallesProyecto()),
                     );
                   },
                   child: Text('Detalles'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: color2,
                     foregroundColor: Colors.white,
                   ),
                 ),

@@ -25,22 +25,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       initialRoute: '/',
       routes: {
-        '/': (context) => Splash(),//Scene es para probar cada vista de prueba
+        '/': (context) => Splash(), //Scene es para probar cada vista de prueba
         '/login': (context) => Login(),
         '/home': (context) => Home(),
         '/proyect': (context) => DetallesProyecto(),
         '/addProyect': (context) => AgregarProyecto()
       },
-      onGenerateRoute: (settings){
+      onGenerateRoute: (settings) {
         return MaterialPageRoute(
-            builder: (context) => const ErrorPage(),
+          builder: (context) => const ErrorPage(),
         );
       },
     );
   }
 }
-
-

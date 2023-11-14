@@ -7,13 +7,17 @@ import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
 
+const Color color1 = Color(0xFF22092C);
+const Color color2 = Color(0xFF872341);
+const Color color3 = Color(0xFFBE3144);
+const Color color4 = Color(0xFFF05941);
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
-
 
 class _LoginState extends State<Login> {
   TextEditingController user = TextEditingController();
@@ -23,6 +27,27 @@ class _LoginState extends State<Login> {
   Future<void> _login() async {
     final correo = user.text;
     final password = pass.text;
+
+    //alertDialog para mensajes emergentes
+    void showErrorDialog(BuildContext context, String message) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('¡Alerta Estudiante!'),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Regresar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     //Correo vacio
     if (correo.isEmpty) {
@@ -36,11 +61,7 @@ class _LoginState extends State<Login> {
 
     //Contraseña vacia
     if (password.isEmpty) {
-      Fluttertoast.showToast(
-        msg: "Por favor, ingrese su contraseña",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-      );
+      showErrorDialog(context, "Por favor, ingrese su contraseña");
       return;
     }
 
@@ -58,76 +79,133 @@ class _LoginState extends State<Login> {
         final correoUsuario = result['correoUsuario'];
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       } else {
-        Fluttertoast.showToast(
-          msg:
-          "La cuenta no se encuentra registrada o ha ingresado mal sus datos",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-        );
+        showErrorDialog(context,
+            "La cuenta no se encuentra registrada o ha ingresado mal sus datos");
       }
     } else {
-      Fluttertoast.showToast(
-        msg: "Error en el servidor",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-      );
+      showErrorDialog(context, "Error en el servidor");
     }
   }
+
+  //Colores de la parte grafica
+  Color color1 = Color(0xFF22092C);
+  Color color2 = Color(0xFF872341);
+  Color color3 = Color(0xFFBE3144);
+  Color color4 = Color(0xFFF05941);
 
   //parte gráfica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login Usuarios UNMSM")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-            Image.asset('assets/SPI-FISI_logo.jpg'),
-            SizedBox(height: 20),
-
-            Container(
-              width: 300,
+      body: ClipRRect(
+        // Agrega esta línea
+        borderRadius: BorderRadius.circular(10.0), // Agrega esta línea
+        child: Container(
+          color: color4,
+          width: double.infinity,
+          height: double.infinity,
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              width: double.infinity,
+              height: double.infinity,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  TextFormField(
-                    controller: user,
-                    decoration: InputDecoration(
-                      labelText: 'Email:',
-                      fillColor: Colors.grey,
-                      filled: true,
+                  Center(
+                    child: Image.asset(
+                      'assets/unmsmlogo.png',
+                      height: 300,
                     ),
                   ),
-                  SizedBox(height: 10),
-
-                  TextFormField(
-                    controller: pass,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Password:',
-                      fillColor: Colors.grey,
-                      filled: true,
+                  SizedBox(height: 20),
+                  Text(
+                    'SPI - FISI',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  SizedBox(height: 40),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      width: 300,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            controller: user,
+                            decoration: InputDecoration(
+                              hintText: 'Usuario',
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              fillColor: color2,
+                              filled: true,
+                              contentPadding: EdgeInsets.all(15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            cursorColor: Colors.black,
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            controller: pass,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Contraseña',
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              fillColor: color2,
+                              filled: true,
+                              contentPadding: EdgeInsets.all(15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            cursorColor: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(color2),
+                    ),
+                    onPressed: () {
+                      // Cambia el color del botón cuando se presiona
+                      setState(() {
+                        color2 = color3;
+                      });
+                      _login();
+                    },
+                    child: Text('Iniciar sesión'),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Entrar'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
