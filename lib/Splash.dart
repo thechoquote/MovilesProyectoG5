@@ -1,86 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/LoginPage.dart';
-import 'package:trabajomovilesg5/main.dart';
-import 'package:trabajomovilesg5/prueba.dart';
+import 'package:trabajomovilesg5/Login_Page.dart';
 
-class Splash extends StatelessWidget
-{
+class Splash extends StatefulWidget {
+  const Splash({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context){
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title:'SPI-FISI ',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePageSplash(),
-    );
-
-  }
+  _SplashState createState() => _SplashState();
 }
 
-class MyHomePageSplash extends StatefulWidget
-{
-  @override
-  State<StatefulWidget>createState()
-  {
-    return _MyHomePageState();
-  }
+class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-}
-
-class _MyHomePageState extends State<MyHomePageSplash>
-{
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
-    _navigatehome();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+
+    _navigateHome();
+
+    // Inicia la animación cuando la pantalla está construida
+    _controller.forward();
   }
-  _navigatehome()async
-  {
-    await Future.delayed(Duration(milliseconds:2000),(){});
+
+  _navigateHome() async {
+    await Future.delayed(Duration(milliseconds: 2000), () {});
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder:(context)=>Login()
-        )
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
     );
   }
 
   @override
-  Widget build (BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-            child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 320,
-                  height: 320,
-                  color: Colors.white,
-                  child: Image.asset('assets/UNMSM-logo.png'),
-                )
-              ],
-            )
-        )
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: _animation.value,
+                  child: Container(
+                    width: 320,
+                    height: 320,
+                    color: Colors.white,
+                    child: Image.asset('assets/UNMSM-logo.png'),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-}
-
-/*class MyHomePage extends StatelessWidget
-{
   @override
-  Widget build(BuildContext context)
-  {
-    final titulo = 'validacion';
-    return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(title: Text(titulo)),
-        )
-    );
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
-}*/
+}

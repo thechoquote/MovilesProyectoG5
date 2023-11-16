@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:trabajomovilesg5/config/firebase_options.dart';
 import 'package:trabajomovilesg5/Splash.dart';
-import 'package:trabajomovilesg5/LoginPage.dart';
+import 'package:trabajomovilesg5/Login_Page.dart';
 import 'package:trabajomovilesg5/ErrorPage.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
 import 'package:trabajomovilesg5/prueba.dart';

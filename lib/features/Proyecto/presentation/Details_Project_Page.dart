@@ -1,51 +1,89 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:trabajomovilesg5/config/config.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
+import 'package:trabajomovilesg5/config/ServerResponse.dart';
+
+import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Document.dart';
+import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
 
-class DetallesProyecto extends StatelessWidget {
-  //final Map<String, dynamic> projectData;
+class DetallesProyecto extends StatefulWidget {
+  @override
+  _DetallesProyectoState createState() => _DetallesProyectoState();
+}
 
-  //proyecto(this.projectData);
+class _DetallesProyectoState extends State<DetallesProyecto> {
+  // Variables para almacenar los detalles del proyecto
+  String titulo = '';
+  String descripcion = '';
+  List<String> miembros = [];
+  List<String> entregables = [];
+  List<String> versiones = [];
+  List<String> anotaciones = [];
+  List<String> enlaces = [];
+  List<String> fuentes = [];
 
+  @override
+  void initState() {
+    super.initState();
+    // Llamar a la función para obtener los detalles del proyecto al inicio
+    obtenerDetallesProyecto();
+  }
+
+  //parte lógica
+  Future<void> obtenerDetallesProyecto() async {
+    final url = Uri.parse("${config.baseUrl}/ListarDetallesProyecto.php");
+    final response = await http.get(url);
+
+    if (response.statusCode == ResponseDB.successCode) {
+      final proyecto = json.decode(response.body);
+
+      setState(() {
+        titulo = proyecto['titulo'];
+        descripcion = proyecto['descripcion'];
+        miembros = List<String>.from(proyecto['miembros']);
+        entregables = List<String>.from(proyecto['entregables']);
+        versiones = List<String>.from(proyecto['versiones']);
+        anotaciones = List<String>.from(proyecto['anotaciones']);
+        enlaces = List<String>.from(proyecto['enlaces']);
+        fuentes = List<String>.from(proyecto['fuentes']);
+      });
+    } else {
+      throw Exception('Error al cargar los detalles del proyecto');
+    }
+  }
+
+  //parte gráfica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        title: Text('Detalles del Proyecto'),
-        /*actions: [
-          IconButton(
-            icon: Icon(Icons.arrow_back), // Icono de flecha hacia atrás
-            onPressed: () {
-              // Acción al presionar el botón "Regresar"
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Home(), // Redirige a Home.dart
-                ),
-              );
-            },
-          ),
-        ],*/
-      ),
-
+      /*appBar: AppBar(
+        backgroundColor: color4,
+        title: const Text(
+          'Detalles del Proyecto',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),*/
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 10),
             Text(
-              "Proyecto 01",
-              //projectData['Nombre'], // Usar el campo 'Nombre' del mapa
+              titulo,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
-              "Descripcion de Proyecto01",
-              //projectData['Descripcion'], // Usar el campo 'Descripción' del mapa
+              descripcion,
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -53,12 +91,14 @@ class DetallesProyecto extends StatelessWidget {
             SizedBox(height: 20),
             ExpansionTile(
               title: Text("Miembros del Proyecto"),
-              children: [
-                // Aquí puedes mostrar información sobre los miembros del proyecto
-                Text("Sebastian Nuñez Medina"),
-                Text("César Urquizo Espinoza"),
-                // Agrega más información si es necesario
-              ],
+              children: miembros
+                  .map((miembro) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(miembro),
+                        ],
+                      ))
+                  .toList(),
             ),
             ExpansionTile(
               title: Text("Documentos"),
@@ -77,53 +117,105 @@ class DetallesProyecto extends StatelessWidget {
             ),
             ExpansionTile(
               title: Text("Enlaces"),
-              children: [
-                // Aquí puedes mostrar información sobre los enlaces del proyecto
-                Text("Enlace 1"),
-                Text("Enlace 2"),
-                // Agrega más información si es necesario
-              ],
+              children: enlaces
+                  .map((enlace) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(enlace),
+                        ],
+                      ))
+                  .toList(),
             ),
             ExpansionTile(
               title: Text("Fuentes"),
-              children: [
-                // Aquí puedes mostrar información sobre las fuentes del proyecto
-                Text("Fuente 1"),
-                Text("Fuente 2"),
-                // Agrega más información si es necesario
-              ],
+              children: fuentes
+                  .map((fuente) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(fuente),
+                        ],
+                      ))
+                  .toList(),
             ),
             ExpansionTile(
               title: Text("Entregables"),
-              children: [
-                // Aquí puedes mostrar información sobre los entregables del proyecto
-                Text("Entregable 1"),
-                Text("Entregable 2"),
-                // Agrega más información si es necesario
-              ],
+              children: entregables
+                  .map((entregable) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(entregable),
+                        ],
+                      ))
+                  .toList(),
             ),
             ExpansionTile(
               title: Text("Versiones"),
-              children: [
-                // Aquí puedes mostrar información sobre las versiones del proyecto
-                Text("Versión 1"),
-                Text("Versión 2"),
-                // Agrega más información si es necesario
-              ],
+              children: versiones
+                  .map((version) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(version),
+                        ],
+                      ))
+                  .toList(),
             ),
             ExpansionTile(
-              title: Text("Otros"),
-              children: [
-                // Aquí puedes mostrar otra información relacionada con el proyecto
-                Text("Otro detalle 1"),
-                Text("Otro detalle 2"),
-                // Agrega más información si es necesario
-              ],
+              title: Text("Anotaciones"),
+              children: anotaciones
+                  .map((anotacion) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(anotacion),
+                        ],
+                      ))
+                  .toList(),
             ),
           ],
         ),
       ),
-
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Container(
+          height: 50.0,
+          child: BottomAppBar(
+            color: Colors.transparent, // Quita el fondo
+            elevation: 0.0, // Quita el sombreado
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.home,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () {
+                        // No hace nada
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.person,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => PerfilPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

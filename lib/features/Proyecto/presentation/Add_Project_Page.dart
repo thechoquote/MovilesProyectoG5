@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/config/firebase_services.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 
-const Color color1 = Color(0xFF22092C);
+/*const Color color1 = Color(0xFF22092C);
 const Color color2 = Color(0xFF872341);
 const Color color3 = Color(0xFFBE3144);
-const Color color4 = Color(0xFFF05941);
+const Color color4 = Color(0xFFF05941);*/
 
 class AgregarProyecto extends StatefulWidget {
   const AgregarProyecto({super.key});

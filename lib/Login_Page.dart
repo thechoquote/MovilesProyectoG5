@@ -5,12 +5,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/config/config.dart';
-import 'package:trabajomovilesg5/features/Home/presentation/HomePage.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
+import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 
-const Color color1 = Color(0xFF22092C);
-const Color color2 = Color(0xFF872341);
+/*const Color color1 = Color(0xFF22092C);
 const Color color3 = Color(0xFFBE3144);
 const Color color4 = Color(0xFFF05941);
+const Color color2 = Color(0xFF872341);*/
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -90,11 +91,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-  //Colores de la parte grafica
-  Color color1 = Color(0xFF22092C);
-  Color color2 = Color(0xFF872341);
-  Color color3 = Color(0xFFBE3144);
-  Color color4 = Color(0xFFF05941);
 
   //parte gráfica
   @override
@@ -195,9 +191,6 @@ class _LoginState extends State<Login> {
                     ),
                     onPressed: () {
                       // Cambia el color del botón cuando se presiona
-                      setState(() {
-                        color2 = color3;
-                      });
                       _login();
                     },
                     child: Text('Iniciar sesión'),

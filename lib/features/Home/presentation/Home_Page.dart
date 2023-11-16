@@ -2,19 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 //import 'package:trabajomovilesg5/config/firebase_services.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:trabajomovilesg5/config/config.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
 
-import 'package:trabajomovilesg5/LoginPage.dart';
+import 'package:trabajomovilesg5/Login_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Add_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
-const Color color1 = Color(0xFF22092C);
+/*const Color color1 = Color(0xFF22092C);
 const Color color2 = Color(0xFF872341);
 const Color color3 = Color(0xFFBE3144);
-const Color color4 = Color(0xFFF05941);
+const Color color4 = Color(0xFFF05941);*/
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -38,6 +40,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +48,13 @@ class _HomeState extends State<Home> {
         backgroundColor: color4,
         title: const Text(
           'SPI - FISI',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         leading: Container(),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add,
-                color: Colors.black), // Cambia el color del icono a negro
+                color: Colors.white), // Cambia el color del icono a negro
             onPressed: () {
               Navigator.push(
                 context,
@@ -149,57 +152,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-/*
-class DrawerMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Menú',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text('Mis Proyectos'),
-            onTap: () {
-              // Acción al seleccionar la opción "Mis Proyectos"
-            },
-          ),
-          ListTile(
-            title: Text('Perfil'),
-            onTap: () {
-              // Navegar a la página de perfil al tocar "Perfil"
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PerfilPage(), // Usa la página de perfil
-              ));
-            },
-          ),
-          ListTile(
-            title: Text('Cerrar sesión'),
-            onTap: () {
-              // Implementa la lógica para cerrar sesión aquí
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) =>
-                    Login(), // Navega de regreso a la página de inicio de sesión
-              ));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/
+
 class MyCard extends StatelessWidget {
   final Project project;
 
