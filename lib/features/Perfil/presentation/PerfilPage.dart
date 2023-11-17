@@ -8,17 +8,43 @@ import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/Login_Page.dart';
 
-/*const Color color1 = Color(0xFF22092C);
-const Color color2 = Color(0xFF872341);
-const Color color3 = Color(0xFFBE3144);
-const Color color4 = Color(0xFFF05941);*/
 
-class PerfilPage extends StatelessWidget {
+class PerfilPage extends StatefulWidget {
+  const PerfilPage({Key? key}) : super(key: key);
+
+  @override
+  _PerfilPageState createState() => _PerfilPageState();
+}
+
+class _PerfilPageState extends State<PerfilPage> {
   // Datos del estudiante (simulados)
-  final String nombreEstudiante = 'César Urquizo Espinoza';
-  final String codigoEstudiante = '19200048';
-  final String correoEstudiante = 'cesar.urquizo@unmsm.edu.pe';
+  String nombre = '';
+  String codigo = '';
+  String correo = '';
 
+  // Método para obtener los datos del usuario desde el servidor PHP
+  Future<void> _fetchUserData() async {
+    final response = await http.get(Uri.parse('${config.baseUrl}/ListarDetallesUsuario.php'));
+    if (response.statusCode == ResponseDB.successCode) {
+      final userData = jsonDecode(response.body);
+      setState(() {
+        nombre = userData['nombre'];
+        codigo = userData['codigo'];
+        correo = userData['email'];
+      });
+    } else {
+      // Manejo de errores
+      print('Error al obtener los datos del usuario');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Llama al método para obtener los datos del usuario cuando se inicia la página
+    _fetchUserData();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -48,7 +74,7 @@ class PerfilPage extends StatelessWidget {
               SizedBox(height: 20),
               // Mostrar el nombre del estudiante
               Text(
-                nombreEstudiante,
+                nombre,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -57,7 +83,7 @@ class PerfilPage extends StatelessWidget {
               SizedBox(height: 10),
               // Mostrar el correo institucional
               Text(
-                'Correo: $correoEstudiante',
+                correo,
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -65,7 +91,7 @@ class PerfilPage extends StatelessWidget {
               SizedBox(height: 20),
               // Mostrar el código de estudiante
               Text(
-                'Código: $codigoEstudiante',
+                codigo,
                 style: TextStyle(
                   fontSize: 18,
                 ),

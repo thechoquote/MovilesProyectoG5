@@ -69,11 +69,11 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
         ),
       ),*/
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 10), 
             Text(
               titulo,
               style: TextStyle(
@@ -176,10 +176,10 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.0),
         child: Container(
-          height: 50.0,
+          height: 50.0, 
           child: BottomAppBar(
-            color: Colors.transparent, // Quita el fondo
-            elevation: 0.0, // Quita el sombreado
+            color: Colors.transparent, 
+            elevation: 0.0, //
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -188,10 +188,13 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.home,
-                          color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.home, color: color2), // Cambia el color del icono
                       onPressed: () {
-                        // No hace nada
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -199,8 +202,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person,
-                          color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.person, color: color2), // Cambia el color del icono
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(

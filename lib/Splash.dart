@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/Login_Page.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

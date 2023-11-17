@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-//import 'package:trabajomovilesg5/config/firebase_services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:trabajomovilesg5/config/config.dart';
@@ -13,10 +12,6 @@ import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
-/*const Color color1 = Color(0xFF22092C);
-const Color color2 = Color(0xFF872341);
-const Color color3 = Color(0xFFBE3144);
-const Color color4 = Color(0xFFF05941);*/
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -46,15 +41,17 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: color4,
-        title: const Text(
-          'SPI - FISI',
-          style: TextStyle(color: Colors.white),
+        title: Row(
+          children: [
+            SizedBox(width: 16), // Espacio ajustable a la izquierda del título
+            Text('SPI - FISI'), // Título
+          ],
         ),
-        leading: Container(),
+        automaticallyImplyLeading: false, // Oculta el botón "atrás"
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add,
-                color: Colors.white), // Cambia el color del icono a negro
+                color: Colors.white), 
             onPressed: () {
               Navigator.push(
                 context,
@@ -62,8 +59,10 @@ class _HomeState extends State<Home> {
               );
             },
           ),
+          SizedBox(width: 16), // Espacio ajustable a la derecha del botón
         ],
       ),
+
       body: Container(
         color: color2,
         child: FutureBuilder(
@@ -98,10 +97,10 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.0),
         child: Container(
-          height: 50.0,
+          height: 50.0, 
           child: BottomAppBar(
-            color: Colors.transparent, // Quita el fondo
-            elevation: 0.0, // Quita el sombreado
+            color: Colors.transparent, 
+            elevation: 0.0, //
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -110,10 +109,13 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.home,
-                          color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.home, color: color2), // Cambia el color del icono
                       onPressed: () {
-                        // No hace nada
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -121,8 +123,7 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person,
-                          color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.person, color: color2), // Cambia el color del icono
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
@@ -138,16 +139,6 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AgregarProyecto(),
-          ));
-          setState(() {});
-        },
-        child: const Icon(Icons.add),
-      ),*/
     );
   }
 }
@@ -240,37 +231,3 @@ class MyCard extends StatelessWidget {
 
 
 
-
-
-
-/*
-class ProjectList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getProjects(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final projectsData = snapshot.data as List<Map<String, dynamic>>;
-
-          return ListView.builder(
-            itemCount: projectsData.length,
-            itemBuilder: (context, index) {
-              final project = Project(
-                  projectsData[index]['Nombre'], // Usa el campo 'Nombre' del resultado
-                  projectsData[index]['Descripcion'] // Supongo que hay un campo 'Descripción' en tus datos
-              );
-
-              return MyCard(project);
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-}
-*/
