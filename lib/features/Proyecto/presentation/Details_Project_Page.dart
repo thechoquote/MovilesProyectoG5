@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/themes.dart';
@@ -9,7 +10,6 @@ import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Document.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
-
 
 class DetallesProyecto extends StatefulWidget {
   @override
@@ -73,7 +73,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10), 
+            SizedBox(height: 10),
             Text(
               titulo,
               style: TextStyle(
@@ -107,7 +107,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetallesDocumento(), // Redirige a la página DetailsDocument.dart
+                      builder: (context) =>
+                          DetallesDocumento(), // Redirige a la página DetailsDocument.dart
                     ));
                   },
                   child: Text("Ver Documentos"),
@@ -176,9 +177,9 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.0),
         child: Container(
-          height: 50.0, 
+          height: 50.0,
           child: BottomAppBar(
-            color: Colors.transparent, 
+            color: Colors.transparent,
             elevation: 0.0, //
             shape: CircularNotchedRectangle(),
             child: Row(
@@ -188,11 +189,15 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.home, color: color2), // Cambia el color del icono
-                      onPressed: () {
+                      icon: Icon(Icons.home,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => Home(),
+                            builder: (context) => Home(userId: userId),
                           ),
                         );
                       },
@@ -202,7 +207,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person, color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.person,
+                          color: color2), // Cambia el color del icono
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(

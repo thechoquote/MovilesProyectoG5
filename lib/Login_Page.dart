@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/config/config.dart';
@@ -75,12 +76,15 @@ class _LoginState extends State<Login> {
 
     if (response.statusCode == ResponseDB.successCode) {
       final result = json.decode(response.body);
-      if (result['status'] == ResponseDB.success) {
-        final nombreUsuario = result['nombreUsuario'];
-        final correoUsuario = result['correoUsuario'];
+      if (result['status'] == 'Success') {
+        final nombreUsuario = result['nombre'];
+        final userId =
+            result['id_usuario'].toString(); // Obtiene el ID del usuario
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userId', userId);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home(userId: userId)),
         );
       } else {
         showErrorDialog(context,
@@ -90,7 +94,6 @@ class _LoginState extends State<Login> {
       showErrorDialog(context, "Error en el servidor");
     }
   }
-
 
   //parte gráfica
   @override

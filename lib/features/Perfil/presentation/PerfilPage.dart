@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/themes.dart';
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
 
 import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/Login_Page.dart';
-
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);
@@ -24,7 +24,8 @@ class _PerfilPageState extends State<PerfilPage> {
 
   // Método para obtener los datos del usuario desde el servidor PHP
   Future<void> _fetchUserData() async {
-    final response = await http.get(Uri.parse('${config.baseUrl}/ListarDetallesUsuario.php'));
+    final response = await http
+        .get(Uri.parse('${config.baseUrl}/ListarDetallesUsuario.php'));
     if (response.statusCode == ResponseDB.successCode) {
       final userData = jsonDecode(response.body);
       setState(() {
@@ -44,14 +45,16 @@ class _PerfilPageState extends State<PerfilPage> {
     // Llama al método para obtener los datos del usuario cuando se inicia la página
     _fetchUserData();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String userId = prefs.getString('userId') ?? '';
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => Home(),
+            builder: (context) => Home(userId: userId),
           ),
         );
         return false;

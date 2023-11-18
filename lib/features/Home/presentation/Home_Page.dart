@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/themes.dart';
@@ -12,17 +13,19 @@ import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Project_
 import 'package:trabajomovilesg5/features/Proyecto/domain/project_model.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 
-
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final String userId;
+
+  Home({required this.userId});
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  Future<List<Map<String, dynamic>>> getProjects() async {
-    final url = Uri.parse("${config.baseUrl}/listarProyectos.php");
+  Future<List<Map<String, dynamic>>> fetchProjects() async {
+    final url = Uri.parse(
+        "${config.baseUrl}/listarProyectos.php?id_usuario=${widget.userId}");
     final response = await http.get(url);
 
     if (response.statusCode == ResponseDB.successCode) {
@@ -34,7 +37,6 @@ class _HomeState extends State<Home> {
       throw Exception('Failed to load projects');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +52,7 @@ class _HomeState extends State<Home> {
         automaticallyImplyLeading: false, // Oculta el botón "atrás"
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add,
-                color: Colors.white), 
+            icon: Icon(Icons.add, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -62,11 +63,10 @@ class _HomeState extends State<Home> {
           SizedBox(width: 16), // Espacio ajustable a la derecha del botón
         ],
       ),
-
       body: Container(
         color: color2,
         child: FutureBuilder(
-          future: getProjects(),
+          future: fetchProjects(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -97,9 +97,9 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.0),
         child: Container(
-          height: 50.0, 
+          height: 50.0,
           child: BottomAppBar(
-            color: Colors.transparent, 
+            color: Colors.transparent,
             elevation: 0.0, //
             shape: CircularNotchedRectangle(),
             child: Row(
@@ -109,11 +109,15 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.home, color: color2), // Cambia el color del icono
-                      onPressed: () {
+                      icon: Icon(Icons.home,
+                          color: color2), // Cambia el color del icono
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => Home(),
+                            builder: (context) => Home(userId: userId),
                           ),
                         );
                       },
@@ -123,7 +127,8 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person, color: color2), // Cambia el color del icono
+                      icon: Icon(Icons.person,
+                          color: color2), // Cambia el color del icono
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
@@ -142,7 +147,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
 
 class MyCard extends StatelessWidget {
   final Project project;
@@ -228,6 +232,3 @@ class MyCard extends StatelessWidget {
     );
   }
 }
-
-
-

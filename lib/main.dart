@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Splash(), //Scene es para probar cada vista de prueba
         '/login': (context) => Login(),
-        '/home': (context) => Home(),
+
         '/proyect': (context) => DetallesProyecto(),
         '/addProyect': (context) => AgregarProyecto()
       },
