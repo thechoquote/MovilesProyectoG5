@@ -54,6 +54,7 @@ flutter:
     - assets/pdf_icon.jpg
     - assets/UNMSM-logo.png
     - assets/unmsmlogo.png
+    - assets/formulario1.jpg
 
   #imagenes de Figma
     - assets/page-1/images/auto-group-ofwj.png

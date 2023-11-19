@@ -28,10 +28,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => Splash(), //Scene es para probar cada vista de prueba
-        '/login': (context) => Login(),
-
+        /*'/login': (context) => Login(),
         '/proyect': (context) => DetallesProyecto(),
-        '/addProyect': (context) => AgregarProyecto()
+        '/addProyect': (context) => AgregarProyecto()*/
       },
       onGenerateRoute: (settings) {
         return MaterialPageRoute(

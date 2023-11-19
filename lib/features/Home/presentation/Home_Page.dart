@@ -46,7 +46,10 @@ class _HomeState extends State<Home> {
         title: Row(
           children: [
             SizedBox(width: 16), // Espacio ajustable a la izquierda del título
-            Text('SPI - FISI'), // Título
+            Text(
+              'SPI - FISI',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ), // Título
           ],
         ),
         automaticallyImplyLeading: false, // Oculta el botón "atrás"
@@ -60,7 +63,7 @@ class _HomeState extends State<Home> {
               );
             },
           ),
-          SizedBox(width: 16), // Espacio ajustable a la derecha del botón
+          SizedBox(width: 20), // Espacio ajustable a la derecha del botón
         ],
       ),
       body: Container(

@@ -61,13 +61,6 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        backgroundColor: color4,
-        title: const Text(
-          'Detalles del Proyecto',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),*/
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: Column(

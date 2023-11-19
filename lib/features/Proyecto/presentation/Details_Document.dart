@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:trabajomovilesg5/config/themes.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/Archivo.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/app_constants.dart';
-import 'package:flutter/material.dart';
 import 'package:trabajomovilesg5/features/Proyecto/domain/utils.dart';
 
 class DetallesDocumento extends StatefulWidget {
@@ -24,6 +25,7 @@ class _DetallesDocumento extends State<DetallesDocumento> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: color2,
         title: const Text('Documentos'),
       ),
 
