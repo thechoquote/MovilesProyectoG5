@@ -31,17 +31,16 @@ class _DetallesDocumento extends State<DetallesDocumento> {
 
       body: Column(
         children: [
-          const SizedBox(
-            height: 50.0,
-          ),
+          const SizedBox(height: 50.0),
+
           const Text(
             "Selecciona un archivo pdf para su visualizacion",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20.0),
           ),
-          const SizedBox(
-            height: 20.0,
-          ),
+          
+          const SizedBox(height: 20.0),
+
           Expanded(
             child: GridView.count(
                 padding: const EdgeInsets.only(right: 50.0, left: 50.0, top: 20.0),

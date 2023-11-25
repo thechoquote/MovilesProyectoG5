@@ -10,6 +10,7 @@ import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/features/Proyecto/presentation/Details_Document.dart';
 import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
+import 'package:trabajomovilesg5/features/Documento/presentation/List_Pdf_Page.dart';
 
 class DetallesProyecto extends StatefulWidget {
   @override
@@ -101,7 +102,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          DetallesDocumento(), // Redirige a la página DetailsDocument.dart
+                          ListPDF(), // Redirige a la página DetailsDocument.dart
                     ));
                   },
                   child: Text("Ver Documentos"),
