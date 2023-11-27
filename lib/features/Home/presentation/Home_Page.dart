@@ -59,7 +59,9 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AgregarProyecto()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        AgregarProyecto(userId: widget.userId)),
               );
             },
           ),

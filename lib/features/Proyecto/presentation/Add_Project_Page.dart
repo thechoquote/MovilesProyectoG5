@@ -6,12 +6,13 @@ import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
 import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 
-
 class AgregarProyecto extends StatefulWidget {
-  const AgregarProyecto({Key? key}) : super(key: key);
+  final String userId;
+
+  const AgregarProyecto({Key? key, required this.userId}) : super(key: key);
 
   @override
-  State<AgregarProyecto> createState() => _AgregarProyectoState();
+  _AgregarProyectoState createState() => _AgregarProyectoState();
 }
 
 class _AgregarProyectoState extends State<AgregarProyecto> {
@@ -20,7 +21,6 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
   TextEditingController courseController = TextEditingController(text: "");
   TextEditingController cycleController = TextEditingController(text: "");
 
-
   //parte lógica
   Future<void> addProject(
     String name,
@@ -28,7 +28,8 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
     String course,
     String cycle,
   ) async {
-    var url = Uri.parse('${config.baseUrl}/RegistroProyecto.php'); // Reemplaza con tu URL PHP
+    var url = Uri.parse(
+        '${config.baseUrl}/RegistroProyecto.php'); // Reemplaza con tu URL PHP
     var response = await http.post(
       url,
       body: {
@@ -36,6 +37,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
         'descripcion': description,
         'curso': course,
         'ciclo': cycle,
+        'id_usuario': widget.userId,
       },
     );
 
@@ -47,7 +49,6 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
       // Puedes mostrar un mensaje de error al usuario aquí
     }
   }
-
 
   //parte gráfica
   @override
@@ -71,8 +72,8 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
             TextFormField(
               controller: nameController,
               decoration: InputDecoration(
-                hintText: 'Nombre del proyecto', 
-                border: OutlineInputBorder(), 
+                hintText: 'Nombre del proyecto',
+                border: OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -85,8 +86,8 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
             TextFormField(
               controller: descriptionController,
               decoration: InputDecoration(
-                hintText: 'Descripción', 
-                  border: OutlineInputBorder(), 
+                hintText: 'Descripción',
+                border: OutlineInputBorder(),
               ),
               maxLines: 5,
               validator: (value) {
@@ -114,9 +115,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
             TextFormField(
               controller: cycleController,
               decoration: const InputDecoration(
-                hintText: 'Ciclo',
-                border: OutlineInputBorder()
-              ),
+                  hintText: 'Ciclo', border: OutlineInputBorder()),
               keyboardType: TextInputType.number,
               validator: (value) {
                 int numberValue = int.tryParse(value ?? '') ?? 0;
@@ -139,6 +138,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                   courseController.text,
                   cycleController.text,
                 );
+                Navigator.pop(context);
               },
             )
           ],

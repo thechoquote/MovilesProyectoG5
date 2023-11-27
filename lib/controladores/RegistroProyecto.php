@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ciclo = $_POST["ciclo"];
     $curso = $_POST["curso"];
     
-    // Obtén el id_usuario de la sesión
-    $id_usuario = $_SESSION['id_usuario'];
+    // Obtén el id_usuario de la petición POST
+    $id_usuario = $_POST['id_usuario'];
 
     // Establecer la fecha de creación a la fecha actual
     $fecha_creacion = date('Y-m-d');
@@ -31,14 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 6. Ejecutar la declaración SQL
     if ($stmt->execute()) {
         echo "Registro exitoso";
-    } else {
-        echo "Error al registrar datos: " . $stmt->error;
     }
-
-    // Cerrar la declaración
-    $stmt->close();
 }
-
-// 7. Cerrar la conexión a la base de datos
-$conn->close();
 ?>
