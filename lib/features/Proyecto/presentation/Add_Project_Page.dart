@@ -138,7 +138,34 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                   courseController.text,
                   cycleController.text,
                 );
-                Navigator.pop(context);
+                // Muestra un diálogo
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Éxito'),
+                      content: const Text('Proyecto agregado exitosamente'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () async {
+                            try {
+                              await addProject(
+                                nameController.text,
+                                descriptionController.text,
+                                courseController.text,
+                                cycleController.text,
+                              );
+                              // Resto del código...
+                            } catch (e) {
+                              print('Error al agregar el proyecto: $e');
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             )
           ],

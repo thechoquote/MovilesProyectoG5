@@ -86,6 +86,8 @@ class _HomeState extends State<Home> {
                   final project = Project(
                     projectsData[index]['titulo'],
                     projectsData[index]['descripcion'],
+                    projectsData[index]['ciclo'].toString(),
+                    int.parse(projectsData[index]['id_proyecto']).toString(),
                   );
 
                   return MyCard(project);
@@ -132,12 +134,14 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person,
-                          color: color2), // Cambia el color del icono
-                      onPressed: () {
+                      icon: Icon(Icons.person, color: color2),
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => PerfilPage(),
+                            builder: (context) => PerfilPage(userId: userId),
                           ),
                         );
                       },
@@ -188,7 +192,7 @@ class MyCard extends StatelessWidget {
 
                 // Columna derecha: Número de ciclo
                 Text(
-                  'Ciclo 8', // Puedes cambiar el número del ciclo según sea necesario
+                  'Ciclo ${project.ciclo.toString()}', // Puedes cambiar el número del ciclo según sea necesario
                   style: TextStyle(
                     fontSize: 14,
                   ),
@@ -217,10 +221,11 @@ class MyCard extends StatelessWidget {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    // Acción al presionar el botón "Detalles"
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                          builder: (context) => DetallesProyecto()),
+                        builder: (context) =>
+                            DetallesProyecto(idProyecto: project.id_proyecto),
+                      ),
                     );
                   },
                   child: Text('Detalles'),

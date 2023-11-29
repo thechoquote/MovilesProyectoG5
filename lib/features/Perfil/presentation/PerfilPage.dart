@@ -10,7 +10,9 @@ import 'package:trabajomovilesg5/features/Home/presentation/Home_Page.dart';
 import 'package:trabajomovilesg5/Login_Page.dart';
 
 class PerfilPage extends StatefulWidget {
-  const PerfilPage({Key? key}) : super(key: key);
+  final String userId;
+
+  PerfilPage({Key? key, required this.userId}) : super(key: key);
 
   @override
   _PerfilPageState createState() => _PerfilPageState();
@@ -24,9 +26,9 @@ class _PerfilPageState extends State<PerfilPage> {
 
   // Método para obtener los datos del usuario desde el servidor PHP
   Future<void> _fetchUserData() async {
-    final response = await http
-        .get(Uri.parse('${config.baseUrl}/ListarDetallesUsuario.php'));
-    if (response.statusCode == ResponseDB.successCode) {
+    final response = await http.get(Uri.parse(
+        '${config.baseUrl}/ListarDetallesUsuario.php?id_usuario=${widget.userId}'));
+    if (response.statusCode == 200) {
       final userData = jsonDecode(response.body);
       setState(() {
         nombre = userData['nombre'];

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:trabajomovilesg5/config/config.dart';
 import 'package:trabajomovilesg5/config/themes.dart';
 import 'package:trabajomovilesg5/config/ServerResponse.dart';
@@ -13,6 +13,10 @@ import 'package:trabajomovilesg5/features/Perfil/presentation/PerfilPage.dart';
 import 'package:trabajomovilesg5/features/Documento/presentation/List_Pdf_Page.dart';
 
 class DetallesProyecto extends StatefulWidget {
+  final String idProyecto;
+
+  DetallesProyecto({required this.idProyecto});
+
   @override
   _DetallesProyectoState createState() => _DetallesProyectoState();
 }
@@ -37,7 +41,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
 
   //parte lógica
   Future<void> obtenerDetallesProyecto() async {
-    final url = Uri.parse("${config.baseUrl}/ListarDetallesProyecto.php");
+    final url = Uri.parse(
+        "${config.baseUrl}/ListarDetallesProyecto.php?id_proyecto=${widget.idProyecto}");
     final response = await http.get(url);
 
     if (response.statusCode == ResponseDB.successCode) {
@@ -57,6 +62,18 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
       throw Exception('Error al cargar los detalles del proyecto');
     }
   }
+
+  Map<String, String> instrucciones = {
+    'Miembros del Proyecto':
+        'Aquí agrega a los que participaron en tu proyecto',
+    'Plantillas':
+        'Aquí adjunta los documentos de los cuales has basado tu trabajo',
+    'Enlaces': 'Aqui adjunta todo enlace que hayas utilizado',
+    'Fuentes': 'Aqui adjunta toda fuente cientifica que hayas utilizado',
+    'Entregables': 'Aqui adjunta los entregables de tu profesor',
+    'Versiones': 'Aqui adjunta todos las versiones de tus documentos',
+    'Anotaciones': 'Aqui puedes adjuntar notas que tengas del curso',
+  };
 
   //parte gráfica
   @override
@@ -83,19 +100,22 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
               ),
             ),
             SizedBox(height: 20),
-            ExpansionTile(
-              title: Text("Miembros del Proyecto"),
-              children: miembros
-                  .map((miembro) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(miembro),
-                        ],
-                      ))
-                  .toList(),
+
+            //Miembros de proyecto
+            Text(
+              "Miembros del Proyecto",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            SizedBox(height: 10),
+            ...miembros.map((miembro) => Text(miembro)).toList(),
+            SizedBox(height: 20),
+
+            //Plantillas
             ExpansionTile(
-              title: Text("Documentos"),
+              title: Text("Plantillas"),
               children: [
                 // Aquí puedes mostrar información sobre los documentos del proyecto
                 TextButton(
@@ -110,60 +130,187 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 // Agrega más información si es necesario
               ],
             ),
-            ExpansionTile(
-              title: Text("Enlaces"),
-              children: enlaces
-                  .map((enlace) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(enlace),
-                        ],
-                      ))
-                  .toList(),
+
+            // Enlaces
+            Text(
+              "Enlaces",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            ExpansionTile(
-              title: Text("Fuentes"),
-              children: fuentes
-                  .map((fuente) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(fuente),
-                        ],
-                      ))
-                  .toList(),
+            SizedBox(height: 10),
+            ...enlaces
+                .map((enlace) => InkWell(
+                      child: Text(
+                        enlace,
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onTap: () async {
+                        try {
+                          Uri.parse(enlace);
+                          bool launched = await canLaunch(enlace);
+
+                          if (launched) {
+                            await launch(enlace);
+                          } else {
+                            throw 'Could not launch $enlace';
+                          }
+                        } catch (e) {
+                          // Handle the error
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Failed to launch URL: $enlace')),
+                          );
+                        }
+                      },
+                    ))
+                .toList(),
+            SizedBox(height: 20),
+
+            // Fuentes
+            Text(
+              "Fuentes",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            ExpansionTile(
-              title: Text("Entregables"),
-              children: entregables
-                  .map((entregable) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(entregable),
-                        ],
-                      ))
-                  .toList(),
+            SizedBox(height: 10),
+            ...fuentes.map((fuente) => Text(fuente)).toList(),
+            SizedBox(height: 20),
+
+            // Entregables
+            Text(
+              "Entregables",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            ExpansionTile(
-              title: Text("Versiones"),
-              children: versiones
-                  .map((version) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(version),
-                        ],
-                      ))
-                  .toList(),
+            SizedBox(height: 10),
+            ...entregables.map((entregable) => Text(entregable)).toList(),
+            SizedBox(height: 20),
+
+            // Versiones
+            Text(
+              "Versiones",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            ExpansionTile(
-              title: Text("Anotaciones"),
-              children: anotaciones
-                  .map((anotacion) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(anotacion),
-                        ],
-                      ))
-                  .toList(),
+            SizedBox(height: 10),
+            ...versiones.map((version) => Text(version)).toList(),
+            SizedBox(height: 20),
+
+            // Anotaciones
+            Text(
+              "Anotaciones",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            ...anotaciones.map((anotacion) => Text(anotacion)).toList(),
+            SizedBox(height: 20),
+            // Agrega esto al final de tu widget Column
+            // Agrega esto al final de tu widget Column
+            Center(
+              child: TextButton(
+                child: Text('Agregar'),
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: color1,
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      String dropdownValue = 'Miembros del Proyecto';
+                      String textFieldValue = '';
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return AlertDialog(
+                            title: Text('Agregar Elemento'),
+                            content: Column(
+                              children: <Widget>[
+                                DropdownButton<String>(
+                                  value: dropdownValue,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue ?? dropdownValue;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'Miembros del Proyecto',
+                                    'Plantillas',
+                                    'Enlaces',
+                                    'Fuentes',
+                                    'Entregables',
+                                    'Versiones',
+                                    'Anotaciones'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                Text(instrucciones[dropdownValue] ?? ''),
+                                if (dropdownValue == 'Miembros del Proyecto' ||
+                                    dropdownValue == 'Enlaces' ||
+                                    dropdownValue == 'Anotaciones')
+                                  TextField(
+                                    onChanged: (value) {
+                                      textFieldValue = value;
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: 'Ingrese texto aquí',
+                                    ),
+                                  ),
+                                if (dropdownValue == 'Fuentes' ||
+                                    dropdownValue == 'Versiones' ||
+                                    dropdownValue == 'Anotaciones')
+                                  TextButton(
+                                    child: Text('Subir Archivo'),
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.white,
+                                      backgroundColor: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      // Código para subir archivo
+                                    },
+                                  ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Cancelar'),
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ElevatedButton(
+                                child: Text('Aceptar'),
+                                onPressed: () {
+                                  // Código para agregar el elemento
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -201,12 +348,14 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.person,
-                          color: color2), // Cambia el color del icono
-                      onPressed: () {
+                      icon: Icon(Icons.person, color: color2),
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => PerfilPage(),
+                            builder: (context) => PerfilPage(userId: userId),
                           ),
                         );
                       },

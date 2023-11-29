@@ -2,6 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+
+
 include "conexion.php";
 
 function obtenerMiembrosProyecto($conn, $project_id) {
@@ -81,7 +83,7 @@ function obtenerFuentesProyecto($conn, $project_id) {
     return $sources;
 }
 
-$project_id = 1; // Cambia esto al ID del proyecto que necesites
+$project_id = $_GET['id_proyecto']; // Obtener el ID del proyecto de la URL
 $projectData = array();
 
 $sql = "SELECT * FROM proyecto WHERE id_proyecto = $project_id";

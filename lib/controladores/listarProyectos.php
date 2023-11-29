@@ -10,7 +10,7 @@ include "conexion.php";
 $id_usuario = $_GET['id_usuario'];
 
 // Consulta para obtener proyectos por usuario
-$sql = "SELECT titulo, descripcion FROM proyecto WHERE id_usuario = $id_usuario";
+$sql = "SELECT titulo, descripcion, ciclo, id_proyecto FROM proyecto WHERE id_usuario = $id_usuario";
 $result = $conn->query($sql);
 
 $projects = array();
