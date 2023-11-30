@@ -95,106 +95,108 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ClipRRect(
-        // Agrega esta línea
-        borderRadius: BorderRadius.circular(10.0), // Agrega esta línea
-        child: Container(
-          color: color4,
-          width: double.infinity,
-          height: double.infinity,
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              width: double.infinity,
-              height: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Image.asset(
-                      'assets/unmsmlogo.png',
-                      height: 300,
+      body: SingleChildScrollView( // Add this
+        child: Padding( // Add this
+          padding: EdgeInsets.only(top: 50.0), // Change this value to modify the space
+          child: Center( // Add this
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                color: color4,
+                width: double.infinity,
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'SPI - FISI',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Image.asset(
+                          'assets/unmsmlogo.png',
+                          height: 300,
+                        ),
                       ),
-                      width: 300,
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: user,
-                            decoration: InputDecoration(
-                              hintText: 'Usuario',
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              fillColor: color2,
-                              filled: true,
-                              contentPadding: EdgeInsets.all(15.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            cursorColor: Colors.black,
-                          ),
-                          SizedBox(height: 10),
-                          TextFormField(
-                            controller: pass,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              hintText: 'Contraseña',
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              fillColor: color2,
-                              filled: true,
-                              contentPadding: EdgeInsets.all(15.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            cursorColor: Colors.black,
-                          ),
-                        ],
+                      SizedBox(height: 20),
+                      Text(
+                        'SPI - FISI',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 40),
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          width: 300,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: user,
+                                decoration: InputDecoration(
+                                  hintText: 'Usuario',
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  fillColor: color2,
+                                  filled: true,
+                                  contentPadding: EdgeInsets.all(15.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                cursorColor: Colors.black,
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                controller: pass,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  hintText: 'Contraseña',
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  fillColor: color2,
+                                  filled: true,
+                                  contentPadding: EdgeInsets.all(15.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                cursorColor: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(color2),
+                        ),
+                        onPressed: () {
+                          _login();
+                        },
+                        child: Text('Iniciar sesión'),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(color2),
-                    ),
-                    onPressed: () {
-                      // Cambia el color del botón cuando se presiona
-                      _login();
-                    },
-                    child: Text('Iniciar sesión'),
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -203,3 +205,4 @@ class _LoginState extends State<Login> {
     );
   }
 }
+

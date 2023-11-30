@@ -79,240 +79,243 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Text(
-              titulo,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              descripcion,
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(height: 20),
-
-            //Miembros de proyecto
-            Text(
-              "Miembros del Proyecto",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            ...miembros.map((miembro) => Text(miembro)).toList(),
-            SizedBox(height: 20),
-
-            //Plantillas
-            ExpansionTile(
-              title: Text("Plantillas"),
-              children: [
-                // Aquí puedes mostrar información sobre los documentos del proyecto
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          ListPDF(), // Redirige a la página DetailsDocument.dart
-                    ));
-                  },
-                  child: Text("Ver Documentos"),
+      body: Padding( // Add this
+        padding: EdgeInsets.only(top: 30.0), // Change this value to modify the space
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              Text(
+                titulo,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                // Agrega más información si es necesario
-              ],
-            ),
-
-            // Enlaces
-            Text(
-              "Enlaces",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            SizedBox(height: 10),
-            ...enlaces
-                .map((enlace) => InkWell(
-                      child: Text(
-                        enlace,
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                      onTap: () async {
-                        try {
-                          Uri.parse(enlace);
-                          bool launched = await canLaunch(enlace);
-
-                          if (launched) {
-                            await launch(enlace);
-                          } else {
-                            throw 'Could not launch $enlace';
-                          }
-                        } catch (e) {
-                          // Handle the error
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Failed to launch URL: $enlace')),
-                          );
-                        }
-                      },
-                    ))
-                .toList(),
-            SizedBox(height: 20),
-
-            // Fuentes
-            Text(
-              "Fuentes",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            ...fuentes.map((fuente) => Text(fuente)).toList(),
-            SizedBox(height: 20),
-
-            // Entregables
-            Text(
-              "Entregables",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            ...entregables.map((entregable) => Text(entregable)).toList(),
-            SizedBox(height: 20),
-
-            // Versiones
-            Text(
-              "Versiones",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            ...versiones.map((version) => Text(version)).toList(),
-            SizedBox(height: 20),
-
-            // Anotaciones
-            Text(
-              "Anotaciones",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            ...anotaciones.map((anotacion) => Text(anotacion)).toList(),
-            SizedBox(height: 20),
-            // Agrega esto al final de tu widget Column
-            // Agrega esto al final de tu widget Column
-            Center(
-              child: TextButton(
-                child: Text('Agregar'),
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: color1,
+              SizedBox(height: 20),
+              Text(
+                descripcion,
+                style: TextStyle(
+                  fontSize: 18,
                 ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      String dropdownValue = 'Miembros del Proyecto';
-                      String textFieldValue = '';
-                      return StatefulBuilder(
-                        builder: (context, setState) {
-                          return AlertDialog(
-                            title: Text('Agregar Elemento'),
-                            content: Column(
-                              children: <Widget>[
-                                DropdownButton<String>(
-                                  value: dropdownValue,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      dropdownValue = newValue ?? dropdownValue;
-                                    });
-                                  },
-                                  items: <String>[
-                                    'Miembros del Proyecto',
-                                    'Plantillas',
-                                    'Enlaces',
-                                    'Fuentes',
-                                    'Entregables',
-                                    'Versiones',
-                                    'Anotaciones'
-                                  ].map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                                Text(instrucciones[dropdownValue] ?? ''),
-                                if (dropdownValue == 'Miembros del Proyecto' ||
-                                    dropdownValue == 'Enlaces' ||
-                                    dropdownValue == 'Anotaciones')
-                                  TextField(
-                                    onChanged: (value) {
-                                      textFieldValue = value;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: 'Ingrese texto aquí',
-                                    ),
-                                  ),
-                                if (dropdownValue == 'Fuentes' ||
-                                    dropdownValue == 'Versiones' ||
-                                    dropdownValue == 'Anotaciones')
-                                  TextButton(
-                                    child: Text('Subir Archivo'),
-                                    style: TextButton.styleFrom(
-                                      primary: Colors.white,
-                                      backgroundColor: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      // Código para subir archivo
-                                    },
-                                  ),
-                              ],
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Cancelar'),
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ElevatedButton(
-                                child: Text('Aceptar'),
-                                onPressed: () {
-                                  // Código para agregar el elemento
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+              ),
+              SizedBox(height: 20),
+
+              //Miembros de proyecto
+              Text(
+                "Miembros del Proyecto",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...miembros.map((miembro) => Text(miembro)).toList(),
+              SizedBox(height: 20),
+
+              //Plantillas
+              ExpansionTile(
+                title: Text("Plantillas"),
+                children: [
+                  // Aquí puedes mostrar información sobre los documentos del proyecto
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ListPDF(), // Redirige a la página DetailsDocument.dart
+                      ));
                     },
-                  );
-                },
+                    child: Text("Ver Documentos"),
+                  ),
+                  // Agrega más información si es necesario
+                ],
               ),
-            ),
-          ],
+
+              // Enlaces
+              Text(
+                "Enlaces",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...enlaces
+                  .map((enlace) => InkWell(
+                        child: Text(
+                          enlace,
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                        onTap: () async {
+                          try {
+                            Uri.parse(enlace);
+                            bool launched = await canLaunch(enlace);
+
+                            if (launched) {
+                              await launch(enlace);
+                            } else {
+                              throw 'Could not launch $enlace';
+                            }
+                          } catch (e) {
+                            // Handle the error
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Failed to launch URL: $enlace')),
+                            );
+                          }
+                        },
+                      ))
+                  .toList(),
+              SizedBox(height: 20),
+
+              // Fuentes
+              Text(
+                "Fuentes",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...fuentes.map((fuente) => Text(fuente)).toList(),
+              SizedBox(height: 20),
+
+              // Entregables
+              Text(
+                "Entregables",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...entregables.map((entregable) => Text(entregable)).toList(),
+              SizedBox(height: 20),
+
+              // Versiones
+              Text(
+                "Versiones",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...versiones.map((version) => Text(version)).toList(),
+              SizedBox(height: 20),
+
+              // Anotaciones
+              Text(
+                "Anotaciones",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              ...anotaciones.map((anotacion) => Text(anotacion)).toList(),
+              SizedBox(height: 20),
+              // Agrega esto al final de tu widget Column
+              // Agrega esto al final de tu widget Column
+              Center(
+                child: TextButton(
+                  child: Text('Agregar'),
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: color1,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        String dropdownValue = 'Miembros del Proyecto';
+                        String textFieldValue = '';
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Text('Agregar Elemento'),
+                              content: Column(
+                                children: <Widget>[
+                                  DropdownButton<String>(
+                                    value: dropdownValue,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue ?? dropdownValue;
+                                      });
+                                    },
+                                    items: <String>[
+                                      'Miembros del Proyecto',
+                                      'Plantillas',
+                                      'Enlaces',
+                                      'Fuentes',
+                                      'Entregables',
+                                      'Versiones',
+                                      'Anotaciones'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  Text(instrucciones[dropdownValue] ?? ''),
+                                  if (dropdownValue == 'Miembros del Proyecto' ||
+                                      dropdownValue == 'Enlaces' ||
+                                      dropdownValue == 'Anotaciones')
+                                    TextField(
+                                      onChanged: (value) {
+                                        textFieldValue = value;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Ingrese texto aquí',
+                                      ),
+                                    ),
+                                  if (dropdownValue == 'Fuentes' ||
+                                      dropdownValue == 'Versiones' ||
+                                      dropdownValue == 'Anotaciones')
+                                    TextButton(
+                                      child: Text('Subir Archivo'),
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        backgroundColor: Colors.blue,
+                                      ),
+                                      onPressed: () {
+                                        // Código para subir archivo
+                                      },
+                                    ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Cancelar'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ElevatedButton(
+                                  child: Text('Aceptar'),
+                                  onPressed: () {
+                                    // Código para agregar el elemento
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
@@ -370,3 +373,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
     );
   }
 }
+
+
+
+

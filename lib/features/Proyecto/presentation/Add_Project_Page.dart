@@ -58,7 +58,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
         title: const Text('Registrar Proyecto'),
         backgroundColor: color2,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(15.0),
         child: Column(
           children: [
@@ -89,7 +89,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                 hintText: 'Descripción',
                 border: OutlineInputBorder(),
               ),
-              maxLines: 5,
+              maxLines: 2,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Por favor, introduce una descripción';
@@ -125,7 +125,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                 return null;
               },
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: color2, // Cambia el color del botón
@@ -138,7 +138,6 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                   courseController.text,
                   cycleController.text,
                 );
-                // Muestra un diálogo
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -157,6 +156,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                                 cycleController.text,
                               );
                               // Resto del código...
+                              Navigator.of(context).pop(); // Add this
                             } catch (e) {
                               print('Error al agregar el proyecto: $e');
                             }
