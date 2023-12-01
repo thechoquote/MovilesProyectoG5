@@ -32,11 +32,84 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   List<String> enlaces = [];
   List<String> fuentes = [];
 
+  // Variables para el diálogo de enlace
+  final _formKey = GlobalKey<FormState>();
+  String? enlace, nombreEnlace, descripcionEnlace;
+
   @override
   void initState() {
     super.initState();
     // Llamar a la función para obtener los detalles del proyecto al inicio
     obtenerDetallesProyecto();
+  }
+
+  void mostrarDialogoEnlace(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Agregar Enlace'),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Enlace'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese un enlace';
+                    }
+                    if (!Uri.parse(value).isAbsolute) {
+                      return 'Por favor ingrese una URL válida';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => enlace = value,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Nombre de enlace'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese un nombre';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => nombreEnlace = value,
+                ),
+                TextFormField(
+                  decoration:
+                      InputDecoration(labelText: 'Descripción del enlace'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese una descripción';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => descripcionEnlace = value,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Aceptar'),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  // Aquí puedes enviar los datos a la base de datos
+                }
+              },
+            ),
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //parte lógica
@@ -79,8 +152,10 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding( // Add this
-        padding: EdgeInsets.only(top: 30.0), // Change this value to modify the space
+      body: Padding(
+        // Add this
+        padding:
+            EdgeInsets.only(top: 30.0), // Change this value to modify the space
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -162,7 +237,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                             // Handle the error
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content: Text('Failed to launch URL: $enlace')),
+                                  content:
+                                      Text('Failed to launch URL: $enlace')),
                             );
                           }
                         },
@@ -242,7 +318,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                     value: dropdownValue,
                                     onChanged: (String? newValue) {
                                       setState(() {
-                                        dropdownValue = newValue ?? dropdownValue;
+                                        dropdownValue =
+                                            newValue ?? dropdownValue;
                                       });
                                     },
                                     items: <String>[
@@ -262,8 +339,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                     }).toList(),
                                   ),
                                   Text(instrucciones[dropdownValue] ?? ''),
-                                  if (dropdownValue == 'Miembros del Proyecto' ||
-                                      dropdownValue == 'Enlaces' ||
+                                  if (dropdownValue ==
+                                          'Miembros del Proyecto' ||
                                       dropdownValue == 'Anotaciones')
                                     TextField(
                                       onChanged: (value) {
@@ -272,6 +349,66 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                       decoration: InputDecoration(
                                         hintText: 'Ingrese texto aquí',
                                       ),
+                                    ),
+                                  if (dropdownValue == 'Enlaces')
+                                    Column(
+                                      children: [
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                              labelText: 'Enlace'),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Por favor ingrese un enlace';
+                                            }
+                                            if (!Uri.parse(value).isAbsolute) {
+                                              return 'Por favor ingrese una URL válida';
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) => enlace = value,
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                              labelText: 'Nombre de enlace'),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Por favor ingrese un nombre';
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) =>
+                                              nombreEnlace = value,
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                              labelText:
+                                                  'Descripción del enlace'),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Por favor ingrese una descripción';
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) =>
+                                              descripcionEnlace = value,
+                                        ),
+                                      ],
+                                    ),
+                                  if (dropdownValue == 'Fuentes' ||
+                                      dropdownValue == 'Versiones' ||
+                                      dropdownValue == 'Anotaciones')
+                                    TextButton(
+                                      child: Text('Subir Archivo'),
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        backgroundColor: Colors.blue,
+                                      ),
+                                      onPressed: () {
+                                        // Aquí puedes agregar el código que se ejecutará cuando el botón sea presionado
+                                      },
                                     ),
                                   if (dropdownValue == 'Fuentes' ||
                                       dropdownValue == 'Versiones' ||
@@ -300,8 +437,60 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                 ),
                                 ElevatedButton(
                                   child: Text('Aceptar'),
-                                  onPressed: () {
-                                    // Código para agregar el elemento
+                                  onPressed: () async {
+                                    if (dropdownValue == 'Enlaces') {
+                                      try {
+                                        Uri.parse(textFieldValue);
+                                        bool launched =
+                                            await canLaunch(textFieldValue);
+
+                                        if (launched) {
+                                          await launch(textFieldValue);
+                                          enlaces.add(
+                                              textFieldValue); // Agrega el enlace a la lista de enlaces
+
+                                          // Guarda el enlace en la base de datos
+                                          var response = await http.post(
+                                            Uri.parse(
+                                                '${config.baseUrl}/RegistroEnlaces.php?id_proyecto=${widget.idProyecto}"'),
+                                            body: {
+                                              'nombreEnlace':
+                                                  nombreEnlace, // Usa la variable nombreEnlace
+                                              'URLEnlace':
+                                                  enlace, // Usa la variable enlace
+                                              'DescripcionEnlace':
+                                                  descripcionEnlace, // Usa la variable descripcionEnlace
+                                              'id_proyecto': widget.idProyecto
+                                                  .toString(), // Aquí se usa el id del proyecto
+                                            },
+                                          );
+
+                                          if (response.statusCode == 200) {
+                                            print(
+                                                'El enlace se ha guardado correctamente.');
+                                          } else {
+                                            print(
+                                                'Hubo un error al guardar el enlace.');
+                                          }
+                                        } else {
+                                          throw 'Could not launch $textFieldValue';
+                                        }
+                                      } catch (e) {
+                                        // Handle the error
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'Failed to launch URL: $textFieldValue')),
+                                        );
+                                      }
+                                    } else if (dropdownValue == 'Fuentes') {
+                                      // Código para agregar una Fuente
+                                    } else if (dropdownValue == 'Entregables') {
+                                      // Código para agregar un Entregable
+                                    } else if (dropdownValue == 'Versiones') {
+                                      // Código para agregar una Versión
+                                    } // Agrega más condiciones para las otras opciones
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -373,7 +562,3 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
     );
   }
 }
-
-
-
-
