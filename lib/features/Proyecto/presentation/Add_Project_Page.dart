@@ -149,14 +149,7 @@ class _AgregarProyectoState extends State<AgregarProyecto> {
                           child: const Text('OK'),
                           onPressed: () async {
                             try {
-                              await addProject(
-                                nameController.text,
-                                descriptionController.text,
-                                courseController.text,
-                                cycleController.text,
-                              );
-                              // Resto del código...
-                              Navigator.of(context).pop(); // Add this
+                              Navigator.of(context).pop(); 
                             } catch (e) {
                               print('Error al agregar el proyecto: $e');
                             }

@@ -39,7 +39,6 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   @override
   void initState() {
     super.initState();
-    // Llamar a la función para obtener los detalles del proyecto al inicio
     obtenerDetallesProyecto();
   }
 
@@ -114,8 +113,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
 
   //parte lógica
   Future<void> obtenerDetallesProyecto() async {
-    final url = Uri.parse(
-        "${config.baseUrl}/ListarDetallesProyecto.php?id_proyecto=${widget.idProyecto}");
+    final url = Uri.parse("${config.baseUrl}/ListarDetallesProyecto.php?id_proyecto=${widget.idProyecto}");
     final response = await http.get(url);
 
     if (response.statusCode == ResponseDB.successCode) {
@@ -137,10 +135,8 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   }
 
   Map<String, String> instrucciones = {
-    'Miembros del Proyecto':
-        'Aquí agrega a los que participaron en tu proyecto',
-    'Plantillas':
-        'Aquí adjunta los documentos de los cuales has basado tu trabajo',
+    'Miembros del Proyecto':'Aquí agrega a los que participaron en tu proyecto',
+    'Plantillas':'Aquí adjunta los documentos de los cuales has basado tu trabajo',
     'Enlaces': 'Aqui adjunta todo enlace que hayas utilizado',
     'Fuentes': 'Aqui adjunta toda fuente cientifica que hayas utilizado',
     'Entregables': 'Aqui adjunta los entregables de tu profesor',
@@ -153,88 +149,55 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        // Add this
-        padding:
-            EdgeInsets.only(top: 30.0), // Change this value to modify the space
+        padding: EdgeInsets.only(top: 30.0), // Change this value to modify the space
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
-              Text(
-                titulo,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                descripcion,
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: 20),
+              s1,
+              Text(titulo, style: TextStyle(fontSize: 24, color: color2, fontWeight: FontWeight.bold)),
+              s2,
+              Text(descripcion,style: t2,),
+              s3,
 
               //Miembros de proyecto
-              Text(
-                "Miembros del Proyecto",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text("Miembros del Proyecto",style: t3,
               ),
-              SizedBox(height: 10),
-              ...miembros.map((miembro) => Text(miembro)).toList(),
-              SizedBox(height: 20),
+              s1,
+              ...miembros.map((miembro) => Text(miembro,style: t4,)).toList(),
+              s2,
 
               //Plantillas
-              ExpansionTile(
-                title: Text("Plantillas"),
-                children: [
-                  // Aquí puedes mostrar información sobre los documentos del proyecto
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            ListPDF(), // Redirige a la página DetailsDocument.dart
-                      ));
-                    },
-                    child: Text("Ver Documentos"),
-                  ),
-                  // Agrega más información si es necesario
-                ],
+              Text("Plantillas",style: t3,),
+              s1,
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                      ListPDF(), // Redirige a la página DetailsDocument.dart
+                  ));
+                },
+                child: Text("Ver Plantillas",style: t5,),
               ),
+              s2,
 
               // Enlaces
-              Text(
-                "Enlaces",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
+              Text("Enlaces",style: t3,),
+              s1,
               ...enlaces
                   .map((enlace) => InkWell(
-                        child: Text(
-                          enlace,
-                          style: TextStyle(color: Colors.blue),
-                        ),
+                        child: Text(enlace, style: t5,),
                         onTap: () async {
                           try {
                             Uri.parse(enlace);
                             bool launched = await canLaunch(enlace);
-
                             if (launched) {
                               await launch(enlace);
                             } else {
                               throw 'Could not launch $enlace';
                             }
                           } catch (e) {
-                            // Handle the error
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content:
@@ -244,57 +207,32 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                         },
                       ))
                   .toList(),
-              SizedBox(height: 20),
+              s2,
 
               // Fuentes
-              Text(
-                "Fuentes",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
+              Text("Fuentes",style: t3,),
+              s1,
               ...fuentes.map((fuente) => Text(fuente)).toList(),
-              SizedBox(height: 20),
+              s2,
 
               // Entregables
-              Text(
-                "Entregables",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
+              Text("Entregables",style: t3,),
+              s1,
               ...entregables.map((entregable) => Text(entregable)).toList(),
-              SizedBox(height: 20),
+              s2,
 
               // Versiones
-              Text(
-                "Versiones",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
+              Text("Versiones",style: t3,),
+              s1,
               ...versiones.map((version) => Text(version)).toList(),
-              SizedBox(height: 20),
+              s2,
 
               // Anotaciones
-              Text(
-                "Anotaciones",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
+              Text("Anotaciones",style: t3,),
+              s1,
               ...anotaciones.map((anotacion) => Text(anotacion)).toList(),
-              SizedBox(height: 20),
-              // Agrega esto al final de tu widget Column
-              // Agrega esto al final de tu widget Column
+              s2,
+
               Center(
                 child: TextButton(
                   child: Text('Agregar'),
@@ -303,6 +241,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                     backgroundColor: color1,
                   ),
                   onPressed: () {
+                    //agregar elementos
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -311,15 +250,17 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                         return StatefulBuilder(
                           builder: (context, setState) {
                             return AlertDialog(
+
                               title: Text('Agregar Elemento'),
+                              
                               content: Column(
                                 children: <Widget>[
+                                  s1,
                                   DropdownButton<String>(
                                     value: dropdownValue,
                                     onChanged: (String? newValue) {
                                       setState(() {
-                                        dropdownValue =
-                                            newValue ?? dropdownValue;
+                                        dropdownValue = newValue ?? dropdownValue;
                                       });
                                     },
                                     items: <String>[
@@ -331,16 +272,18 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                       'Versiones',
                                       'Anotaciones'
                                     ].map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }
+                                    ).toList(),
                                   ),
+                                  s4,
                                   Text(instrucciones[dropdownValue] ?? ''),
-                                  if (dropdownValue ==
-                                          'Miembros del Proyecto' ||
+
+                                  if (dropdownValue =='Miembros del Proyecto' ||
                                       dropdownValue == 'Anotaciones')
                                     TextField(
                                       onChanged: (value) {
@@ -354,11 +297,9 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                     Column(
                                       children: [
                                         TextFormField(
-                                          decoration: InputDecoration(
-                                              labelText: 'Enlace'),
+                                          decoration: InputDecoration(labelText: 'Enlace'),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null ||value.isEmpty) {
                                               return 'Por favor ingrese un enlace';
                                             }
                                             if (!Uri.parse(value).isAbsolute) {
@@ -368,60 +309,47 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                           },
                                           onSaved: (value) => enlace = value,
                                         ),
+
                                         TextFormField(
-                                          decoration: InputDecoration(
-                                              labelText: 'Nombre de enlace'),
+                                          decoration: InputDecoration(labelText: 'Nombre de enlace'),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null ||value.isEmpty) {
                                               return 'Por favor ingrese un nombre';
                                             }
                                             return null;
                                           },
-                                          onSaved: (value) =>
-                                              nombreEnlace = value,
+                                          onSaved: (value) => nombreEnlace = value,
                                         ),
+
                                         TextFormField(
-                                          decoration: InputDecoration(
-                                              labelText:
-                                                  'Descripción del enlace'),
+                                          decoration: InputDecoration(labelText:'Descripción del enlace'),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null ||value.isEmpty) {
                                               return 'Por favor ingrese una descripción';
                                             }
                                             return null;
                                           },
-                                          onSaved: (value) =>
-                                              descripcionEnlace = value,
+                                          onSaved: (value) =>descripcionEnlace = value,
                                         ),
                                       ],
                                     ),
                                   if (dropdownValue == 'Fuentes' ||
                                       dropdownValue == 'Versiones' ||
-                                      dropdownValue == 'Anotaciones')
-                                    TextButton(
-                                      child: Text('Subir Archivo'),
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.white,
-                                        backgroundColor: Colors.blue,
-                                      ),
-                                      onPressed: () {
-                                        // Aquí puedes agregar el código que se ejecutará cuando el botón sea presionado
-                                      },
-                                    ),
-                                  if (dropdownValue == 'Fuentes' ||
-                                      dropdownValue == 'Versiones' ||
-                                      dropdownValue == 'Anotaciones')
-                                    TextButton(
-                                      child: Text('Subir Archivo'),
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.white,
-                                        backgroundColor: Colors.blue,
-                                      ),
-                                      onPressed: () {
-                                        // Código para subir archivo
-                                      },
+                                      dropdownValue == 'Entregables')
+                                    Column(
+                                      children:[
+                                        s4,
+                                        TextButton(
+                                          child: Text('Subir Archivo'),
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: color2,
+                                          ),
+                                          onPressed: () {
+                                            // Aquí puedes agregar el código que se ejecutará cuando el botón sea presionado
+                                          },
+                                        ),
+                                      ]
                                     ),
                                 ],
                               ),
@@ -430,6 +358,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                   child: Text('Cancelar'),
                                   style: TextButton.styleFrom(
                                     primary: Colors.black,
+                                    backgroundColor: Colors.white,
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -437,31 +366,36 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                 ),
                                 ElevatedButton(
                                   child: Text('Aceptar'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: color2,
+                                  ),
                                   onPressed: () async {
                                     if (dropdownValue == 'Enlaces') {
+                                      if (enlace == null) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Error: Debe ingresar un enlace'),
+                                          ),
+                                        );
+                                        return;
+                                      }
                                       try {
-                                        Uri.parse(textFieldValue);
-                                        bool launched =
-                                            await canLaunch(textFieldValue);
-
+                                        Uri.parse(enlace ?? '');
+                                        bool launched =await canLaunch(enlace ?? '');
                                         if (launched) {
-                                          await launch(textFieldValue);
-                                          enlaces.add(
-                                              textFieldValue); // Agrega el enlace a la lista de enlaces
-
-                                          // Guarda el enlace en la base de datos
+                                          //await launch(enlace ?? '');
+                                          enlaces.add(enlace ?? ''); // Agrega el enlace a la lista de enlaces
                                           var response = await http.post(
                                             Uri.parse(
-                                                '${config.baseUrl}/RegistroEnlaces.php?id_proyecto=${widget.idProyecto}"'),
+                                              //'${config.baseUrl}/RegistroEnlaces.php?id_proyecto=${widget.idProyecto}"'),
+                                              '${config.baseUrl}/RegistroEnlaces.php?id_proyecto=${widget.idProyecto}'),
                                             body: {
-                                              'nombreEnlace':
-                                                  nombreEnlace, // Usa la variable nombreEnlace
-                                              'URLEnlace':
-                                                  enlace, // Usa la variable enlace
-                                              'DescripcionEnlace':
-                                                  descripcionEnlace, // Usa la variable descripcionEnlace
-                                              'id_proyecto': widget.idProyecto
-                                                  .toString(), // Aquí se usa el id del proyecto
+                                              'NombreEnlace': nombreEnlace, // Usa la variable nombreEnlace
+                                              'URLEnlace': enlace, // Usa la variable enlace
+                                              'DescripcionEnlace': descripcionEnlace, // Usa la variable descripcionEnlace
+                                              'id_proyecto': widget.idProyecto.toString(),  
+                                              // Aquí se usa el id del proyecto
                                             },
                                           );
 
@@ -477,11 +411,10 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                         }
                                       } catch (e) {
                                         // Handle the error
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
+                                        ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
-                                              content: Text(
-                                                  'Failed to launch URL: $textFieldValue')),
+                                            content: Text('Failed to launch URL: $textFieldValue')
+                                          ),
                                         );
                                       }
                                     } else if (dropdownValue == 'Fuentes') {
@@ -490,7 +423,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                                       // Código para agregar un Entregable
                                     } else if (dropdownValue == 'Versiones') {
                                       // Código para agregar una Versión
-                                    } // Agrega más condiciones para las otras opciones
+                                    } 
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -525,8 +458,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                       icon: Icon(Icons.home,
                           color: color2), // Cambia el color del icono
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        SharedPreferences prefs =await SharedPreferences.getInstance();
                         String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
@@ -542,8 +474,7 @@ class _DetallesProyectoState extends State<DetallesProyecto> {
                     child: IconButton(
                       icon: Icon(Icons.person, color: color2),
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
                         String userId = prefs.getString('userId') ?? '';
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
